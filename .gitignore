@@ -1,0 +1,27 @@
+# Ignore Mac system files
+.DS_store
+
+# Ignore node_modules folder
+node_modules
+
+# Ignore all text files
+*.txt
+
+# Ignore files related to API keys
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Ignore SASS config files
+.sass-cache
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+.vscode/
