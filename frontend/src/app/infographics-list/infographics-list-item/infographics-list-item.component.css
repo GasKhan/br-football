@@ -1,0 +1,10 @@
+.info-list-item {
+  display: flex;
+}
+
+.info-name {
+  flex-basis: 60%;
+}
+.info-data {
+  flex-basis: 40%;
+}

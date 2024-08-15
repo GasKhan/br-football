@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="container-inner">
+    <div class="top">
+      <h3>Last week winners</h3>
+      <div
+        class="team-color"
+        [ngStyle]="{ backgroundColor: teamData.teamColor }"
+      ></div>
+    </div>
+    <div class="players-list">
+      <div
+        class="players-list-item"
+        *ngFor="let player of teamData.teamPlayers"
+      >
+        {{ player }}
+      </div>
+    </div>
+  </div>
+</div>

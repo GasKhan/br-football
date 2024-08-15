@@ -1,0 +1,11 @@
+.main-container {
+  display: flex;
+}
+
+.main {
+  flex-basis: 70%;
+}
+
+.awards-aside {
+  flex-basis: 30%;
+}
