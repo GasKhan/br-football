@@ -1,0 +1,17 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer div {
+  margin-bottom: 5px;
+}
+
+.footer a {
+  font-weight: 600;
+}
+.footer a:hover {
+  color: rgb(139, 109, 109);
+}
