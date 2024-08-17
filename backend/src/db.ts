@@ -12,11 +12,11 @@ export const dbPool = mysql
   })
   .promise();
 
-const getAwards = async () => {
-  const awards = await dbPool.query(`
-    SELECT * FROM award_types;
-    `);
-  console.log(awards);
-};
+// const getAwards = async () => {
+//   const awards = await dbPool.query(`
+//     SELECT * FROM award_types;
+//     `);
+//   console.log(awards);
+// };
 
-getAwards();
+// getAwards();

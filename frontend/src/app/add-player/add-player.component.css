@@ -1,0 +1,38 @@
+.inner-containter {
+  margin-bottom: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-name {
+  margin: 5px 0;
+  padding: 3px 5px;
+}
+
+.player-submit {
+  font-size: 20px;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 10%;
+  border: none;
+  background-image: -webkit-linear-gradient(
+    top,
+    rgb(0, 85, 241),
+    rgb(192, 0, 255)
+  );
+  /* transition: background-image 2s ease-out; */
+}
+.player-submit:hover {
+  background-image: -webkit-linear-gradient(
+    top,
+    rgb(192, 0, 255),
+    rgb(0, 85, 241)
+  );
+}
+.player-submit:disabled {
+  opacity: 0.8;
+}

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="info-list">
     <app-infographics-list-item
-      *ngFor="let info of infoArr"
+      *ngFor="let info of infoArr; let i = index"
       [playerData]="info"
     ></app-infographics-list-item>
   </div>

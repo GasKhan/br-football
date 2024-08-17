@@ -10,7 +10,8 @@
     <div class="players-list">
       <div
         class="players-list-item"
-        *ngFor="let player of teamData.teamPlayers"
+        *ngFor="let player of teamData.teamPlayers; let i = index"
+        [appListItemColor]="i"
       >
         {{ player }}
       </div>

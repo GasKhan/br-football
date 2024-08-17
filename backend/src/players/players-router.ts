@@ -12,7 +12,7 @@ router.get('/', getPlayersController);
 
 router.get('/:id', getPlayerController);
 
-router.post('/:id', createPlayerController);
+router.post('/', createPlayerController);
 
 router.put('/:id', updatePlayerController);
 

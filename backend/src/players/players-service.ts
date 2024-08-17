@@ -10,10 +10,10 @@ export const getPlayerService = async (id: number) => {
   return player;
 };
 
-export const createPlayerService = async (userData: { name: string }) => {
+export const createPlayerService = async (userData: { playerName: string }) => {
   const player = dbPool.query(
-    `INSERT INTO players (name) VALUES (?)`,
-    userData.name
+    `INSERT INTO players (Player_name) VALUES (?)`,
+    userData.playerName
   );
 
   return player;

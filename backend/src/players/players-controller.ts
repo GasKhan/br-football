@@ -23,7 +23,7 @@ export const createPlayerController = async (req: Request, res: Response) => {
   const playerData = req.body;
   const player = await createPlayerService(playerData);
 
-  res.json(player);
+  res.status(200).json(player[0]);
 };
 
 export const updatePlayerController = async (req: Request, res: Response) => {
