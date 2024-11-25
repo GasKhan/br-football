@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CreatePlayerService } from './create-player.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-player',
@@ -30,10 +31,16 @@ export class AddPlayerComponent implements OnInit {
   }
 
   initForm() {}
-  constructor(private createPlayerService: CreatePlayerService) {}
+  constructor(
+    private createPlayerService: CreatePlayerService,
+    private router: Router
+  ) {}
 
   onSubmit() {
     const name = this.playerForm.controls.playerName.value;
-    if (name) this.createPlayerService.createPlayer(name);
+    if (name) {
+      this.createPlayerService.createPlayer(name);
+      this.router.navigate(['/']);
+    }
   }
 }

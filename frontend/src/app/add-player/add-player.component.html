@@ -8,7 +8,10 @@
         id="player-name"
         class="player-name"
       />
-      <p class="name-error" *ngIf="!playerForm.valid && playerForm.dirty">
+      <p
+        class="name-error"
+        *ngIf="!playerForm.valid && playerForm.dirty && playerForm.touched"
+      >
         Please enter correct name
       </p>
       <button

@@ -1,27 +1,19 @@
 import { dbPool } from '../db';
 
-export const getTeamsForGameService = async (gameId: number) => {
-  const teams = await dbPool.query(
-    `SELECT * FROM teams WHERE game_id = ?`,
-    gameId
-  );
-  return teams;
-};
-
-export const setTeamService = async (gameId: number, playerIdArr: number[]) => {
-  const team = await dbPool.query(
-    `INSERT INTO teams (game_id) VALUES (?)`,
-    gameId
-  );
-
-  const playerIdStrforSQL = playerIdArr
-    .map((id) => {
-      return `(${team[0]}, ${id})`;
-    })
-    .join(', ');
-  await dbPool.query(
+export const getWinnerTeams = async () => {
+  const winnerTeams = dbPool.query(
     `
-    INSERT INTO teams_players (team_id, player_id) VALUES ?`,
-    playerIdStrforSQL
+    SELECT t.game_id AS gameId, t.team_id AS teamId, MAX(t.points) AS maxPoints, g.date AS date, t_p.player_id AS playerId
+    FROM teams AS t
+    INNER JOIN games AS g ON g.game_id = t.game_id
+    INNER JOIN teams_players AS t_p 
+    ON t_p.team_id = t.team_id
+    WHERE t.points = (
+      SELECT MAX(points)
+      FROM teams
+      WHERE game_id = t.game_id
+    )
+    GROUP BY t.team_id, t.game_id, g.date, t_p.player_id;
+    `
   );
 };

@@ -2,9 +2,12 @@ import { Router } from 'express';
 import {
   getRatingController,
   setRatingsController,
-} from './ratings-controller';
+} from './ratings.controllers';
 
 export const router = Router();
 
-router.post('/', setRatingsController);
+router.get('/');
 router.get('/:playerId', getRatingController);
+router.get('/wins/:playerId');
+
+router.post('/', setRatingsController);

@@ -1,0 +1,11 @@
+<div class="team-players" formArrayName="team">
+  <app-add-player-input></app-add-player-input>
+  <ul class="team-player">
+    <li class="team-player-name" *ngFor="let player of teamPlayers">
+      <span>
+        {{ player.playerName }}
+      </span>
+      <button type="button" class="remove-player">remove</button>
+    </li>
+  </ul>
+</div>

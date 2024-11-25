@@ -9,10 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePlayerController = exports.updatePlayerController = exports.createPlayerController = exports.getPlayerController = exports.getPlayersController = void 0;
+exports.deletePlayerController = exports.updatePlayerController = exports.createPlayerController = exports.getPlayerController = exports.getPlayersController = exports.getAllPlayersController = void 0;
 const players_service_1 = require("./players-service");
+const getAllPlayersController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const players = yield (0, players_service_1.getAllPlayersService)();
+    res.status(200).json(players);
+});
+exports.getAllPlayersController = getAllPlayersController;
 const getPlayersController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const players = yield (0, players_service_1.getPlayersService)();
+    const nameSmpl = req.params['nameSmpl'];
+    const players = yield (0, players_service_1.getPlayersService)(nameSmpl);
     res.json(players);
 });
 exports.getPlayersController = getPlayersController;
@@ -25,7 +31,7 @@ exports.getPlayerController = getPlayerController;
 const createPlayerController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const playerData = req.body;
     const player = yield (0, players_service_1.createPlayerService)(playerData);
-    res.json(player);
+    res.status(200).json(player);
 });
 exports.createPlayerController = createPlayerController;
 const updatePlayerController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

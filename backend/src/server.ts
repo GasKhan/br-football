@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 
-import { router as playersRouter } from './players/players-router';
-import { router as gamesRouter } from './games/games-router';
+import { router as gamesRouter } from './games/games.routes';
+import { router as goalsRouter } from './goals/goals.routes';
+import { router as playersRouter } from './players/players.routes';
+import { router as ratingsRouter } from './ratings/ratings.routes';
 import { router as teamsRouter } from './teams/teams-router';
 import { router as awardsRouter } from './awards/awards-router';
-import { router as goalsRouter } from './goals/goals-router';
-import { router as ratingsRouter } from './ratings/ratings-router';
 
 const app = express();
 const PORT = 5000;

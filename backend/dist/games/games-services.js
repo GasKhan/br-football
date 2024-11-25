@@ -25,7 +25,7 @@ exports.getGameService = getGameService;
 const setGameService = () => __awaiter(void 0, void 0, void 0, function* () {
     const date = (0, toMySQLTime_1.toMySQLTime)(new Date());
     const game = yield db_1.dbPool.query(`INSERT INTO games (date) VALUES (?)`, date);
-    return game;
+    return game[0].insertId;
 });
 exports.setGameService = setGameService;
 const setWinnerTeam = (teamId, gameId) => __awaiter(void 0, void 0, void 0, function* () {

@@ -23,7 +23,7 @@ const getGameController = (req, res) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.getGameController = getGameController;
 const setGameController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const game = yield (0, games_services_1.setGameService)();
-    res.status(200).json(game);
+    const gameId = yield (0, games_services_1.setGameService)();
+    res.status(200).json(gameId);
 });
 exports.setGameController = setGameController;
