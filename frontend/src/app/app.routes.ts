@@ -1,16 +1,18 @@
 import { Routes } from '@angular/router';
-import { MainPageComponent } from './main-page/main-page.component';
-import { AddPlayerComponent } from './add-player/add-player.component';
-import { GameComponent } from './game/game.component';
+import { MainPageComponent } from './pages/main-page/main-page.component';
+import { GamePageComponent } from './pages/game-page/game-page.component';
+import { AdminPageComponent } from './pages/admin-page/admin-page.component';
+import { adminPageResolver } from './pages/admin-page/resolvers/admin-page.resolver';
 
 export const routes: Routes = [
   {
     path: 'admin',
-    component: AddPlayerComponent,
+    // resolve: { ratings: adminPageResolver },
+    component: AdminPageComponent,
   },
   {
     path: 'game',
-    component: GameComponent,
+    component: GamePageComponent,
   },
   { path: '', component: MainPageComponent },
 ];

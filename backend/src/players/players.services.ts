@@ -1,7 +1,7 @@
 import { dbPool } from '../db';
 
 export const getPlayersService = async () => {
-  const players = await dbPool.query(`SELECT * FROM players`);
+  const players = await dbPool.query(`SELECT player_id AS playerId, player_name AS playerName FROM players`);
   return players[0];
 };
 
@@ -22,10 +22,10 @@ export const getPlayerByIdService = async (id: number) => {
   return player[0];
 };
 
-export const createPlayerService = async (userData: { playerName: string }) => {
+export const createPlayerService = async (userData: string) => {
   const player = await dbPool.query(
     `INSERT INTO players (Player_name) VALUES (?)`,
-    userData.playerName
+    userData
   );
 
   return player[0];

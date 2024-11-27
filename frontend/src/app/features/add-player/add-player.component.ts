@@ -7,8 +7,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CreatePlayerService } from './create-player.service';
 import { Router } from '@angular/router';
+import { PlayersService } from '../../shared/services/players.service';
 
 @Component({
   selector: 'app-add-player',
@@ -31,16 +31,13 @@ export class AddPlayerComponent implements OnInit {
   }
 
   initForm() {}
-  constructor(
-    private createPlayerService: CreatePlayerService,
-    private router: Router
-  ) {}
+  constructor(private playersService: PlayersService, private router: Router) {}
 
   onSubmit() {
     const name = this.playerForm.controls.playerName.value;
     if (name) {
-      this.createPlayerService.createPlayer(name);
-      this.router.navigate(['/']);
+      this.playersService.createPlayer(name);
+      // this.router.navigate(['/']);
     }
   }
 }

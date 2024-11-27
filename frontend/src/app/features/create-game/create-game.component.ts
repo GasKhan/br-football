@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-import { GameService } from '../game.service';
+import { GameService } from '../../pages/game-page/game.service';
 
 @Component({
   selector: 'app-create-game',

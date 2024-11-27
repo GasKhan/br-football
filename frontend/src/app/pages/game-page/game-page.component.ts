@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CreateGameComponent } from './create-game/create-game.component';
 import { GameService } from './game.service';
 import { Subscription } from 'rxjs';
 import { AddGamePlayersComponent } from './add-game-players/add-game-players.component';
+import { CreateGameComponent } from '../../features/create-game/create-game.component';
 
 enum stages {
   START = 'start',
@@ -13,13 +13,13 @@ enum stages {
 }
 
 @Component({
-  selector: 'app-game',
+  selector: 'app-game-page',
   standalone: true,
   imports: [CreateGameComponent, AddGamePlayersComponent],
-  templateUrl: './game.component.html',
-  styleUrl: './game.component.css',
+  templateUrl: './game-page.component.html',
+  styleUrl: './game-page.component.css',
 })
-export class GameComponent implements OnInit, OnDestroy {
+export class GamePageComponent implements OnInit, OnDestroy {
   stage = stages.START;
   gameId!: number;
   gameSubscription!: Subscription;

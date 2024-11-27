@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { TeamListComponent } from '../team-list/team-list.component';
-import { AwardsListComponent } from '../awards-list/awards-list.component';
-import { InfographicsListComponent } from '../infographics-list/infographics-list.component';
+import { AwardsListComponent } from '../../widgets/awards-list/awards-list.component';
+import { InfographicsListComponent } from '../../infographics-list/infographics-list.component';
+import { TeamListComponent } from '../game-page/team-list/team-list.component';
 
 @Component({
   selector: 'app-main-page',

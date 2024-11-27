@@ -1,6 +1,7 @@
 import { NgFor, NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
-import { ListItemColor } from '../shared/list-item-color.directive';
+import { ListItemColor } from '../../../shared/list-item-color.directive';
+
 export type TeamData = {
   teamColor: string;
   teamPlayers: string[];

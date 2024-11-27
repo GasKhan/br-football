@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { GameService } from '../../game.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Player } from '../../../types/types';
 import { NgFor, NgIf } from '@angular/common';
+import { Player } from '../../../../shared/types/types';
+import { PlayersStore } from '../../../../entities/players/model/players.store';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-add-player-input',
@@ -26,8 +28,10 @@ export class AddPlayerInputComponent {
       this.searchedPlayers = [];
       return;
     }
-    this.gameService
-      .getPlayersStartWith(name)
+    this.playersStore
+      .getfilteredPlayersBySubstr(name).pipe(
+        tap(r=> console.log(r))
+      )
       .subscribe((players: Player[]) => {
         this.searchedPlayers = [...players];
       });
@@ -52,5 +56,5 @@ export class AddPlayerInputComponent {
     this.canAdd = false;
   }
 
-  constructor(private gameService: GameService) {}
+  constructor(private gameService: GameService, private playersStore: PlayersStore) {}
 }

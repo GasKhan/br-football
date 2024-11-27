@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { GameService } from '../game.service';
-import { TeamPlayersComponent } from './team-players/team-players.component';
+import { TeamPlayersComponent } from '../team-players/team-players.component';
 
 @Component({
   selector: 'app-add-game-players',

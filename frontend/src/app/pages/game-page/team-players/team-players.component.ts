@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AddPlayerComponent } from '../../../add-player/add-player.component';
-import { AddPlayerInputComponent } from '../add-player-input/add-player-input.component';
-import { Player } from '../../../types/types';
 import { Subject, Subscription } from 'rxjs';
-import { GameService } from '../../game.service';
 import { NgFor } from '@angular/common';
+import { AddPlayerInputComponent } from '../add-game-players/add-player-input/add-player-input.component';
+import { Player } from '../../../shared/types/types';
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-team-players',
