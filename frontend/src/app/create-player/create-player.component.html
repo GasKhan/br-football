@@ -1,0 +1,26 @@
+<div class="controller">
+  <div class="inner-containter">
+    <form class="form" (ngSubmit)="onSubmit()">
+      <label for="player-name"> Enter players name </label>
+      <input
+        type="text"
+        [formControl]="playerName"
+        id="player-name"
+        class="player-name"
+      />
+      <p
+        class="name-error"
+        *ngIf="!playerName.valid && playerName.dirty && playerName.touched"
+      >
+        Please enter correct name
+      </p>
+      <button
+        type="submit"
+        class="player-submit"
+        [disabled]="!playerName.valid"
+      >
+        Save
+      </button>
+    </form>
+  </div>
+</div>

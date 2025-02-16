@@ -1,0 +1,22 @@
+<div class="pt-2 flex justify-center flex-col font-medium text-lg mb-10">
+  <div class="flex p-1 flex-col md:flex-row justify-around mb-10">
+    @for (team of (gameService.teams$ | async); track $index) {
+    <div class="flex flex-col">
+      <h3 class="text-center uppercase">{{ team.teamColor }} team</h3>
+      <app-add-player-input [teamColor]="team.teamColor"></app-add-player-input>
+      <app-team-players
+        [team]="team"
+        (removePlayer)="removePlayerFromTeam($event, team.teamColor)"
+      ></app-team-players>
+    </div>
+    }
+  </div>
+  <div class="flex justify-center">
+    <button
+      class="bg-blue-500 px-3 py-2 text-slate-200 rounded-lg text-sm w-52 align-self-center"
+      (click)="saveTeams()"
+    >
+      Save teams
+    </button>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import {
+  getGameDataService,
   getGameService,
   getGamesService,
   setGameResultService,
@@ -18,10 +19,11 @@ export const getGamesController = async (req: Request, res: Response) => {
 
 export const getGameByIdController = async (req: Request, res: Response) => {
   const { gameId } = req.params;
+
   try {
     if (!gameId) res.status(400).send({ message: 'Game id wasnt provided' });
     else {
-      const game = await getGameService(+gameId);
+      const game = await getGameDataService(+gameId);
       res.status(200).json(game);
     }
   } catch (err) {
@@ -36,7 +38,7 @@ export const setGameController = async (req: Request, res: Response) => {
     if (!teams) res.status(400).send({ message: 'Teams werent provided' });
     else {
       const gameId = await setGameService(teams);
-      res.status(200).json(gameId);
+      res.status(201).json(gameId);
     }
   } catch (err) {
     console.log(err);
@@ -48,7 +50,7 @@ export const setGameResultsController = async (req: Request, res: Response) => {
   const { gameResults } = req.body;
   try {
     if (!gameResults)
-      res.status(400).send({ message: 'Game results wasnt provided' });
+      res.status(401).send({ message: 'Game results wasnt provided' });
     else {
       const gameId = await setGameResultService(gameResults);
       res

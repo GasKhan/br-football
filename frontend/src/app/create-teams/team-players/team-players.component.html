@@ -1,0 +1,18 @@
+@for(player of team.players; track player.playerId) {
+<ul class="flex flex-col">
+  <li
+    class="flex items-baseline justify-between border-b-2 border-slate-500 mb-1"
+  >
+    <span>
+      {{ player.playerName }}
+    </span>
+    <button
+      type="button"
+      class="px-1 py-1/2 bg-red-500 border-none text-xs text-slate-200 rounded-md"
+      (click)="onRemovePlayer(player)"
+    >
+      REMOVE
+    </button>
+  </li>
+</ul>
+}

@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { MainPageComponent } from './pages/main-page/main-page.component';
-import { GamePageComponent } from './pages/game-page/game-page.component';
-import { AdminPageComponent } from './pages/admin-page/admin-page.component';
-import { adminPageResolver } from './pages/admin-page/resolvers/admin-page.resolver';
+
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { CreateTeamsComponent } from './create-teams/create-teams.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 export const routes: Routes = [
   {
@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'game',
-    component: GamePageComponent,
+    component: CreateTeamsComponent,
   },
   { path: '', component: MainPageComponent },
 ];
