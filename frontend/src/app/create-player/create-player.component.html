@@ -1,12 +1,12 @@
 <div class="controller">
   <div class="inner-containter">
     <form class="form" (ngSubmit)="onSubmit()">
-      <label for="player-name"> Enter players name </label>
+      <label for="player-name"> Create new player </label>
       <input
         type="text"
         [formControl]="playerName"
         id="player-name"
-        class="player-name"
+        class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-52 align-self-center mb-2"
       />
       <p
         class="name-error"
