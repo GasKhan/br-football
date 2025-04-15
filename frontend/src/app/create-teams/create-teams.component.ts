@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 
-import { GameService } from './game.service';
+import { TeamService } from './team.service';
 import { AsyncPipe } from '@angular/common';
 import { Player } from '../shared/types/types';
 import { TeamColors } from '../shared/types/enums';
-import { GameApiService } from './gameApi.service';
 import { TeamPlayersComponent } from './team-players/team-players.component';
 import { AddPlayerInputComponent } from './add-player-input/add-player-input.component';
 
@@ -17,15 +16,12 @@ import { AddPlayerInputComponent } from './add-player-input/add-player-input.com
 })
 export class CreateTeamsComponent {
   removePlayerFromTeam(player: Player, teamColor: TeamColors) {
-    this.gameService.removePlayerFromTeam(player, teamColor);
+    this.teamService.removePlayerFromTeam(player, teamColor);
   }
 
   saveTeams() {
-    this.gameService.saveTeams();
+    this.teamService.saveTeams();
   }
 
-  constructor(
-    public gameService: GameService,
-    private gameApiService: GameApiService
-  ) {}
+  constructor(public teamService: TeamService) {}
 }

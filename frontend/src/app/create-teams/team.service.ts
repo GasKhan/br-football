@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, switchMap, take } from 'rxjs';
+import { BehaviorSubject, filter, switchMap, take, tap } from 'rxjs';
 import { Player, Team } from '../shared/types/types';
 import { TeamColors } from '../shared/types/enums';
-import { GameApiService } from './gameApi.service';
+import { TeamApiService } from './teamApi.service';
 import {
   MAX_PLAYERS_COUNT,
   MIN_PLAYERS_COUNT,
@@ -10,12 +10,14 @@ import {
 } from '../shared/config/config';
 
 @Injectable({ providedIn: 'root' })
-export class GameService {
+export class TeamService {
   private teamsSubject = new BehaviorSubject<Team[]>([
     { teamColor: TeamColors.BLUE, players: [], points: 0 },
     { teamColor: TeamColors.RED, players: [], points: 0 },
     { teamColor: TeamColors.YELLOW, players: [], points: 0 },
   ]);
+
+  public teams$ = this.teamsSubject.asObservable();
 
   addPlayerToTeam(player: Player, teamColor: TeamColors) {
     if (this.checkIsPlayerInTeams(player.playerId))
@@ -56,19 +58,25 @@ export class GameService {
     );
   }
 
-  teams$ = this.teamsSubject.asObservable();
-
   public saveTeams() {
-    console.log('saving teams');
-    //TODO:Throw error if teams dont have required state
-    this.teams$.pipe(
-      take(1),
-      filter((teams) => this.checkIsValidTeamsArray(teams)),
-      switchMap((teams) => this.gameApiService.saveTeams(teams))
-    );
+    console.log('starting save teams');
+    // TODO: Throw error if teams don't have required state
+    this.teams$
+      .pipe(
+        take(1),
+        filter((teams) => this.checkIsTeamsValid(teams)),
+        tap((teams) => {
+          console.log('saving teams', teams);
+        }),
+        switchMap((teams) => this.teamApiService.saveTeams(teams))
+      )
+      .subscribe({
+        next: () => console.log('Teams saved successfully'),
+        error: (err) => console.error('Error saving teams:', err),
+      });
   }
 
-  checkIsValidTeamsArray(teams: Team[]) {
+  private checkIsTeamsValid(teams: Team[]) {
     return (
       Array.isArray(teams) &&
       teams.length === REQUIRED_TEAMS_COUNT &&
@@ -79,5 +87,5 @@ export class GameService {
       )
     );
   }
-  constructor(private gameApiService: GameApiService) {}
+  constructor(private teamApiService: TeamApiService) {}
 }

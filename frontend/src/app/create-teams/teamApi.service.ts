@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { Team } from '../shared/types/types';
 
 @Injectable({ providedIn: 'root' })
-export class GameApiService {
+export class TeamApiService {
   saveTeams(teams: Team[]) {
-    console.log(teams);
     return this.http.post('http://localhost:5000/api/games', { teams });
   }
 

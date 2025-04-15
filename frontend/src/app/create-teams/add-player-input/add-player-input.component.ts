@@ -1,9 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { map, Observable, switchMap } from 'rxjs';
 import { Player } from '../../shared/types/types';
-import { GameService } from '../game.service';
+import { TeamService } from '../team.service';
 import { TeamColors } from '../../shared/types/enums';
 import { PlayersStore } from '../../players.store';
 
@@ -16,6 +23,7 @@ import { PlayersStore } from '../../players.store';
 })
 export class AddPlayerInputComponent {
   @Input({ required: true }) teamColor!: TeamColors;
+  @ViewChild('inputPlayer') input!: ElementRef<HTMLInputElement>;
 
   inputPlayerName = new FormControl('', { nonNullable: true });
   selectedPlayer: Player | null = null;
@@ -25,8 +33,8 @@ export class AddPlayerInputComponent {
       switchMap((substr) =>
         this.playersStore.getfilteredPlayersBySubstr(substr).pipe(
           //TODO: Maybe should add take() here
-          map((players) => players.slice(0, 5)),
-          tap((r) => console.log(r))
+          map((players) => players.slice(0, 5))
+          // tap((r) => console.log(r))
         )
       )
     );
@@ -45,13 +53,14 @@ export class AddPlayerInputComponent {
 
   onAddPlayer() {
     if (!this.selectedPlayer) return;
-    this.gameService.addPlayerToTeam(this.selectedPlayer, this.teamColor);
+    this.teamService.addPlayerToTeam(this.selectedPlayer, this.teamColor);
 
+    this.input.nativeElement.focus();
     this.onSelectPlayer(null);
   }
 
   constructor(
     private playersStore: PlayersStore,
-    private gameService: GameService
+    private teamService: TeamService
   ) {}
 }

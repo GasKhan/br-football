@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  getActiveGameController,
   getGameByIdController,
   getGamesController,
   setGameController,
@@ -9,6 +10,7 @@ import {
 export const router = Router();
 
 router.get('/', getGamesController);
+router.get('/active', getActiveGameController);
 router.get('/:gameId', getGameByIdController);
 
 router.post('/', setGameController);

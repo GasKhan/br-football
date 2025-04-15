@@ -3,9 +3,8 @@ import {
   getRatingService,
   getRatingsService,
   getWinsInfoByPlayerId,
-  setRatingsService,
 } from './ratings.services';
-import { RatingObj } from '../models';
+import { GameResult } from '../models';
 
 export const getTopRatings = async (req: Request, res: Response) => {
   try {
@@ -47,21 +46,6 @@ export const getWinsInfo = async (req: Request, res: Response) => {
     else {
       const winsInfo = await getWinsInfoByPlayerId(+playerId);
       res.status(200).json(winsInfo);
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).send({ message: 'Server error' });
-  }
-};
-
-export const setRatingsController = async (req: Request, res: Response) => {
-  const ratingsArr: RatingObj[] = req.body;
-  try {
-    if (!ratingsArr)
-      res.status(400).send({ message: 'Ratings werent provided' });
-    else {
-      await setRatingsService(ratingsArr);
-      res.status(200).send({ message: 'Ratings were successfully added' });
     }
   } catch (err) {
     console.log(err);

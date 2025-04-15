@@ -5,7 +5,7 @@ import {
 } from '@angular/router';
 import { inject } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { PlayersService, Rating } from '../../../shared/players.service';
+import { PlayersService, Rating } from '../shared/players.service';
 
 export const adminPageResolver: ResolveFn<Rating[]> = (
   route: ActivatedRouteSnapshot,

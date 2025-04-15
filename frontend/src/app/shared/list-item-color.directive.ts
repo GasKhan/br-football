@@ -4,10 +4,10 @@ import { Directive, ElementRef, HostBinding, Input } from '@angular/core';
   selector: '[appListItemColor]',
   standalone: true,
 })
-export class ListItemColor {
+export class ListItemColorDirective {
   @Input('appListItemColor') itemIndex = 0;
 
   @HostBinding('style.background-color') get bgColor() {
-    return this.itemIndex % 2 === 0 ? 'red' : 'green';
+    return this.itemIndex % 2 === 0 ? '#bed3ff' : '#86b1ff';
   }
 }

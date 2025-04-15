@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import {
   getGameDataService,
-  getGameService,
   getGamesService,
   setGameResultService,
   setGameService,
 } from './games.services';
+import { GameResult } from '../models';
 
 export const getGamesController = async (req: Request, res: Response) => {
   try {
@@ -31,9 +31,23 @@ export const getGameByIdController = async (req: Request, res: Response) => {
     res.status(500).send({ message: 'Server error' });
   }
 };
+export const getActiveGameController = async (req: Request, res: Response) => {
+  try {
+    const game = await getGameDataService();
+    res.status(200).json(game);
+  } catch (err) {
+    if (err instanceof Error && err.message === 'Game not found') {
+      res.status(404).send({ message: 'No active game found' });
+    } else {
+      console.log(err);
+      res.status(500).send({ message: 'Server error' });
+    }
+  }
+};
 
 export const setGameController = async (req: Request, res: Response) => {
   const { teams } = req.body;
+  console.log('teams', teams);
   try {
     if (!teams) res.status(400).send({ message: 'Teams werent provided' });
     else {
@@ -47,15 +61,13 @@ export const setGameController = async (req: Request, res: Response) => {
 };
 
 export const setGameResultsController = async (req: Request, res: Response) => {
-  const { gameResults } = req.body;
+  const gameResults: GameResult = req.body;
   try {
     if (!gameResults)
-      res.status(401).send({ message: 'Game results wasnt provided' });
+      res.status(400).send({ message: 'Ratings werent provided' });
     else {
-      const gameId = await setGameResultService(gameResults);
-      res
-        .status(200)
-        .json({ message: 'Results for game were added successfully' });
+      await setGameResultService(gameResults);
+      res.status(200).send({ message: 'Ratings were successfully added' });
     }
   } catch (err) {
     console.log(err);

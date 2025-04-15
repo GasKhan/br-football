@@ -1,12 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Player } from './types/types';
-
-export type Rating = {
-  rating: number;
-  playerName: string;
-};
+import { Player, Rating } from './types/types';
 
 @Injectable({ providedIn: 'root' })
 export class PlayersService {

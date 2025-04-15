@@ -1,5 +1,6 @@
+import { Player } from './player.model';
+
 export interface Team {
-  playerIds:
-    | [number, number, number, number, number]
-    | [number, number, number, number];
+  teamColor: string;
+  players: Player[];
 }

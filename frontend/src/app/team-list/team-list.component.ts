@@ -1,6 +1,6 @@
 import { NgFor, NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
-import { ListItemColor } from '../shared/list-item-color.directive';
+import { ListItemColorDirective } from '../shared/list-item-color.directive';
 
 export type TeamData = {
   teamColor: string;
@@ -10,7 +10,7 @@ export type TeamData = {
 @Component({
   selector: 'app-team-list',
   standalone: true,
-  imports: [NgFor, NgStyle, ListItemColor],
+  imports: [NgFor, NgStyle, ListItemColorDirective],
   templateUrl: './team-list.component.html',
   styleUrl: './team-list.component.css',
 })

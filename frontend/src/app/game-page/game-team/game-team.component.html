@@ -1,0 +1,39 @@
+<div class="flex">{{ team.id }}</div>
+@for(player of team.players; track player.playerId; let i = $index) {
+<ul class="flex flex-col">
+  <li class="mb-2 p-1" [appListItemColor]="i">
+    <div class="flex items-baseline justify-between">
+      <span class="mr-1 font-semibold">
+        {{ player.playerName }}
+      </span>
+      <input
+        type="text"
+        required
+        class="px-2 py-1 text-center w-10 border-2 border-slate-700 rounded-md"
+        [ngClass]="{
+          'border-red-500':
+            (rating?.dirty || rating?.touched) && rating.value == 0
+        }"
+        [(ngModel)]="player.rating"
+        (blur)="onRatingChange(player.teamPlayerId, $event)"
+        (keypress)="onKeyPress($event)"
+        #rating="ngModel"
+      />
+    </div>
+
+    @if((rating?.dirty || rating?.touched) && rating.value == 0){
+    <span class="text-red-500 text-sm mb-2">Rating must be greater than 0</span>
+    }
+  </li>
+</ul>
+}
+<div class="flex flex-col justify-center items-center p-2">
+  <span class="font-semibold mb-2">Points</span>
+  <input
+    type="text"
+    class="font-semibold text-center border-2 border-slate-700 rounded-md w-14 h-14 px-2 py-1 text-3xl"
+    [(ngModel)]="team.points"
+    (blur)="onPointsChange($event)"
+  />
+</div>
+<hr class="bg-slate-950" />
