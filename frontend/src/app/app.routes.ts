@@ -21,5 +21,10 @@ export const routes: Routes = [
     component: GamePageComponent,
     resolve: { gameData: gamePageResolver },
   },
+  {
+    path: 'game/:id',
+    component: GamePageComponent,
+    resolve: { gameData: gamePageResolver },
+  },
   { path: '', component: MainPageComponent },
 ];

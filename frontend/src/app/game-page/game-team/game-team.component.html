@@ -9,6 +9,7 @@
       <input
         type="text"
         required
+        [disabled]="!(gameService.gameData$ | async)?.isActive"
         class="px-2 py-1 text-center w-10 border-2 border-slate-700 rounded-md"
         [ngClass]="{
           'border-red-500':
@@ -31,6 +32,7 @@
   <span class="font-semibold mb-2">Points</span>
   <input
     type="text"
+    [disabled]="!(gameService.gameData$ | async)?.isActive"
     class="font-semibold text-center border-2 border-slate-700 rounded-md w-14 h-14 px-2 py-1 text-3xl"
     [(ngModel)]="team.points"
     (blur)="onPointsChange($event)"

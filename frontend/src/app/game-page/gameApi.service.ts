@@ -4,8 +4,12 @@ import { Game, GameResult } from '../shared/types/types';
 
 @Injectable({ providedIn: 'root' })
 export class GameApiService {
-  getActiveGameData() {
-    return this.http.get<Game>('http://localhost:5000/api/games/active');
+  getGameData(id?: number) {
+    if (id) {
+      return this.http.get<Game>('http://localhost:5000/api/games/' + id);
+    } else {
+      return this.http.get<Game>('http://localhost:5000/api/games/active');
+    }
   }
 
   saveGameResults(gameResult: GameResult) {

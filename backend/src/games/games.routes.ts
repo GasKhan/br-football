@@ -11,7 +11,7 @@ export const router = Router();
 
 router.get('/', getGamesController);
 router.get('/active', getActiveGameController);
-router.get('/:gameId', getGameByIdController);
+router.get('/:id', getGameByIdController);
 
 router.post('/', setGameController);
 router.post('/results', setGameResultsController);

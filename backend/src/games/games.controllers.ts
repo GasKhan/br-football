@@ -5,7 +5,6 @@ import {
   setGameResultService,
   setGameService,
 } from './games.services';
-import { GameResult } from '../models';
 
 export const getGamesController = async (req: Request, res: Response) => {
   try {
@@ -18,12 +17,11 @@ export const getGamesController = async (req: Request, res: Response) => {
 };
 
 export const getGameByIdController = async (req: Request, res: Response) => {
-  const { gameId } = req.params;
-
+  const { id } = req.params;
   try {
-    if (!gameId) res.status(400).send({ message: 'Game id wasnt provided' });
+    if (!id) res.status(400).send({ message: 'Game id wasnt provided' });
     else {
-      const game = await getGameDataService(+gameId);
+      const game = await getGameDataService(+id);
       res.status(200).json(game);
     }
   } catch (err) {
@@ -61,13 +59,15 @@ export const setGameController = async (req: Request, res: Response) => {
 };
 
 export const setGameResultsController = async (req: Request, res: Response) => {
-  const gameResults: GameResult = req.body;
+  const { gameResults } = req.body;
   try {
     if (!gameResults)
-      res.status(400).send({ message: 'Ratings werent provided' });
+      res.status(401).send({ message: 'Game results wasnt provided' });
     else {
-      await setGameResultService(gameResults);
-      res.status(200).send({ message: 'Ratings were successfully added' });
+      const gameId = await setGameResultService(gameResults);
+      res
+        .status(200)
+        .json({ message: 'Results for game were added successfully' });
     }
   } catch (err) {
     console.log(err);

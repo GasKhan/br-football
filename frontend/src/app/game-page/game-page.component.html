@@ -5,13 +5,16 @@
     }
   </div>
   <div class="flex justify-center items-center my-4">
+    @if (!!(gameService.gameData$ | async)?.isActive) {
     <button
       class="font-semibold bg-blue-500 px-3 py-2 text-slate-200 rounded-lg text-sm w-52 align-self-center"
       (click)="gameService.saveResults()"
     >
       Save results
     </button>
+    }
   </div>
+
   @if(this.gameService.isAllFieldsFilledError$ | async) {
   <span class="text-red-500 text-lg my-2 self-center"
     >All ratings must be filled</span

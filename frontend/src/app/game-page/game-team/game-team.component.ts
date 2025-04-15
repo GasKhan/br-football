@@ -3,12 +3,12 @@ import { Team } from '../../shared/types/types';
 import { ListItemColorDirective } from '../../shared/list-item-color.directive';
 import { GameService } from '../game.service';
 import { Form, FormsModule, NgForm } from '@angular/forms';
-import { NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-game-team',
   standalone: true,
-  imports: [ListItemColorDirective, FormsModule, NgClass],
+  imports: [ListItemColorDirective, FormsModule, NgClass, AsyncPipe],
   templateUrl: './game-team.component.html',
   styleUrl: './game-team.component.css',
 })

@@ -12,9 +12,9 @@ export class GameService {
   private _isAllFieldsFilledError = new BehaviorSubject<boolean>(false);
   public isAllFieldsFilledError$ = this._isAllFieldsFilledError.asObservable();
 
-  getActiveGameData(): void {
+  getGameData(id?: number): void {
     this.gameApiService
-      .getActiveGameData()
+      .getGameData(id)
       .pipe(
         take(1),
         tap((gameData) => {

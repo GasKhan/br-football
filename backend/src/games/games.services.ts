@@ -147,11 +147,12 @@ const getPlayersFromTeam = async (
     `SELECT t_p.team_player_id AS teamPlayerId, p.player_id AS playerId, player_name AS playerName, IFNULL(r.rating, 0) AS rating
      FROM teams_players AS t_p
      INNER JOIN players AS p ON t_p.player_id = p.player_id
-     LEFT JOIN ratings AS r ON t_p.player_id = r.team_player_id
+     LEFT JOIN ratings AS r ON t_p.team_player_id = r.team_player_id
      WHERE t_p.team_id = ?
     `,
     [teamId]
   );
+  console.log(players);
   return players;
 };
 
