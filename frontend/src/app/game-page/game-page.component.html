@@ -1,3 +1,12 @@
+@if (! (this.gameService.gameData$ | async)) {
+<div class="flex flex-col justify-center items-center my-10">
+  <h3 class="text-2xl font-semibold text-slate-500">
+    There is no active games
+  </h3>
+</div>
+
+}
+
 <div class="flex flex-col">
   <div class="flex flex-col justify-between p-2 md:flex-row">
     @for (team of (this.gameService.gameData$ | async)?.teams; track $index) {

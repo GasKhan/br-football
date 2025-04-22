@@ -19,6 +19,9 @@ export class TeamService {
 
   public teams$ = this.teamsSubject.asObservable();
 
+  private createTeamError = new BehaviorSubject<string | null>(null);
+  public createTeamError$ = this.createTeamError.asObservable();
+
   addPlayerToTeam(player: Player, teamColor: TeamColors) {
     if (this.checkIsPlayerInTeams(player.playerId))
       throw new Error('Player has already been chosen');
@@ -71,8 +74,16 @@ export class TeamService {
         switchMap((teams) => this.teamApiService.saveTeams(teams))
       )
       .subscribe({
-        next: () => console.log('Teams saved successfully'),
-        error: (err) => console.error('Error saving teams:', err),
+        next: () => {
+          console.log('Teams saved successfully');
+          this.createTeamError.next(null);
+        },
+        error: (err) => {
+          console.error('Error saving teams:', err);
+          this.createTeamError.next(
+            'There is an active game already or teams are invalid'
+          );
+        },
       });
   }
 

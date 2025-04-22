@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 
 import { ComponentStore } from '@ngrx/component-store';
 import { catchError, EMPTY, exhaustMap, map, of, tap } from 'rxjs';
-import { Player } from './shared/types/types';
-import { PlayersService } from './shared/players.service';
+import { Player } from '../shared/types/types';
+import { PlayersService } from './playersApi.service';
 
 export type PlayersState = {
   players: Player[];
@@ -23,7 +23,23 @@ export class PlayersStore extends ComponentStore<PlayersState> {
     return trigger$.pipe(
       exhaustMap(() => {
         return this.playersService.getAllPlayers().pipe(
-          tap((players) => this.addPlayers(players)),
+          tap((players) => this.setPlayers(players)),
+          catchError((err) => {
+            console.log(err);
+            return EMPTY;
+          })
+        );
+      })
+    );
+  });
+
+  readonly createPlayer = this.effect<string>((playerName$) => {
+    return playerName$.pipe(
+      exhaustMap((playerName) => {
+        return this.playersService.createPlayer(playerName).pipe(
+          tap(() => {
+            this.fetchPlayers();
+          }),
           catchError((err) => {
             console.log(err);
             return EMPTY;
@@ -46,7 +62,7 @@ export class PlayersStore extends ComponentStore<PlayersState> {
     );
   }
 
-  readonly addPlayers = this.updater((state, players: Player[]) => {
+  readonly setPlayers = this.updater((state, players: Player[]) => {
     return { ...state, players };
   });
 }

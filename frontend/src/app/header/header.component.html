@@ -1,18 +1,30 @@
 <header>
-  <div class="container">
-    <nav class="user-nav">
-      <div class="">
+  <div class="flex justify-between items-center p-4 bg-gray-100">
+    <nav class="flex gap-4">
+      <div class="font-semibold text-lg">
         <a href="#">Ratings</a>
       </div>
-      <div class="">
-        <a href="#">Players</a>
-      </div>
     </nav>
-    <h1 class="title">
-      <a href="#">{{ title }}</a>
+    <h1 class="text-center flex-grow">
+      <a href="#" class="text-5xl font-semibold">{{ title }}</a>
     </h1>
-    <nav class="admin-nav">
-      <a class="admin-btn" routerLink="/admin">Admin</a>
+    <nav class="flex gap-4">
+      <div class="font-semibold text-lg">
+        <a class="" href="#">Admin</a>
+      </div>
+      <div class="font-semibold text-lg">
+        <a routerLink="/players" routerLinkActive="router-link-active"
+          >Players</a
+        >
+      </div>
+      <div class="font-semibold text-lg">
+        <a routerLink="/create-teams" routerLinkActive="router-link-active"
+          >Start new game</a
+        >
+      </div>
+      <div class="font-semibold text-lg">
+        <a routerLink="/game" routerLinkActive="router-link-active">Game</a>
+      </div>
     </nav>
   </div>
 </header>

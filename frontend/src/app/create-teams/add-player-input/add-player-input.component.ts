@@ -12,7 +12,7 @@ import { map, Observable, switchMap } from 'rxjs';
 import { Player } from '../../shared/types/types';
 import { TeamService } from '../team.service';
 import { TeamColors } from '../../shared/types/enums';
-import { PlayersStore } from '../../players.store';
+import { PlayersStore } from '../../players-page/players.store';
 
 @Component({
   selector: 'app-add-player-input',

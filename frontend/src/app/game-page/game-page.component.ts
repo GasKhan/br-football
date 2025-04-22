@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameTeamComponent } from './game-team/game-team.component';
 import { Game } from '../shared/types/types';
 import { GameService } from './game.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({

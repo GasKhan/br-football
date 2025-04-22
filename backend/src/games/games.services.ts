@@ -12,6 +12,7 @@ import {
   ResultObj,
 } from '../models';
 
+//TODO: remove try catch blocks and use error handling middleware
 export const getGamesService = async () => {
   const games = await dbPool.query(`SELECT * FROM games`);
   return games;
@@ -54,7 +55,6 @@ export const getGameDataService = async (id?: number) => {
 };
 
 export const setGameService = async (teams: Team[]) => {
-  //TODO: Check if there active game already exists
   const date = toMySQLTime(new Date());
   const connection = dbPool.getConnection();
 
@@ -152,7 +152,7 @@ const getPlayersFromTeam = async (
     `,
     [teamId]
   );
-  console.log(players);
+
   return players;
 };
 
@@ -211,5 +211,21 @@ export const setGameResultService = async (gameResults: GameResult) => {
     console.log(err);
   } finally {
     connection.release();
+  }
+};
+
+export const checkIsActiveGameService = async () => {
+  try {
+    const [activeGame] = await dbPool.query<IGame[]>(
+      `SELECT game_id FROM games WHERE is_active = 1`
+    );
+
+    if (activeGame.length === 0) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };

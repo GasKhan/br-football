@@ -1,0 +1,7 @@
+<ul class="mt-2 flex flex-col flex-wrap gap-1 h-44">
+  @for (player of (players$ | async);let i = $index; track player.playerId) {
+  <li class="p-2 font-semibold" [appListItemColor]="i">
+    {{ player.playerName }}
+  </li>
+  }
+</ul>

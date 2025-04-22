@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormControl,
@@ -7,12 +6,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PlayersService } from '../shared/players.service';
+import { PlayersStore } from '../players.store';
 
 @Component({
   selector: 'app-create-player',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, NgIf],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './create-player.component.html',
   styleUrl: './create-player.component.css',
 })
@@ -23,12 +22,12 @@ export class CreatePlayerComponent {
     Validators.required,
   ]);
 
-  constructor(private playersService: PlayersService, private router: Router) {}
+  constructor(private playersStore: PlayersStore, private router: Router) {}
 
   onSubmit() {
     const name = this.playerName.value;
     if (name) {
-      this.playersService.createPlayer(name);
+      this.playersStore.createPlayer(name);
       this.playerName.reset();
       // this.router.navigate(['/']);
     }

@@ -1,20 +1,22 @@
 import { Routes } from '@angular/router';
 
-import { AdminPageComponent } from './admin-page/admin-page.component';
 import { CreateTeamsComponent } from './create-teams/create-teams.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { GamePageComponent } from './game-page/game-page.component';
 import { gamePageResolver } from './game-page/game.resolver';
+import { PlayersPageComponent } from './players-page/players-page.component';
+import { createTeamsGuard } from './create-teams/create-teams.guard';
 
 export const routes: Routes = [
   {
-    path: 'admin',
+    path: 'players',
     // resolve: { ratings: adminPageResolver },
-    component: AdminPageComponent,
+    component: PlayersPageComponent,
   },
   {
     path: 'create-teams',
     component: CreateTeamsComponent,
+    canActivate: [createTeamsGuard],
   },
   {
     path: 'game',

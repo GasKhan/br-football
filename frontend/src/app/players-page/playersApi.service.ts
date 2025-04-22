@@ -1,20 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Player, Rating } from './types/types';
+import { Player, Rating } from '../shared/types/types';
 
 @Injectable({ providedIn: 'root' })
 export class PlayersService {
   createPlayer(playerName: string) {
-    return this.http
-      .post('http://localhost:5000/api/players', { playerData: playerName })
-      .subscribe((res) => console.log(res));
+    return this.http.post('http://localhost:5000/api/players', {
+      playerData: playerName,
+    });
   }
 
   getAllPlayers() {
     return this.http.get<Player[]>('http://localhost:5000/api/players');
   }
 
-  getPlayerWithId(id: number) {
+  getPlayerById(id: number) {
     return this.http.get(`http://localhost:5000/api/players/player/${id}`);
   }
 

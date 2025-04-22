@@ -5,9 +5,10 @@ import {
 } from '@angular/router';
 import { inject } from '@angular/core';
 import { tap } from 'rxjs/operators';
-import { PlayersService, Rating } from '../shared/players.service';
+import { PlayersService } from './playersApi.service';
+import { Rating } from '../shared/types/types';
 
-export const adminPageResolver: ResolveFn<Rating[]> = (
+export const playersPageResolver: ResolveFn<Rating[]> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {

@@ -1,0 +1,29 @@
+<div class="flex">
+  <div class="flex justify-center items-center w-full h-full">
+    <form
+      class="flex flex-col justify-center items-center"
+      (ngSubmit)="onSubmit()"
+    >
+      <label for="player-name" class="font-semibold mb-1">
+        Create new player
+      </label>
+      <input
+        type="text"
+        [formControl]="playerName"
+        id="player-name"
+        class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-52 align-self-center mb-2"
+      />
+
+      @if(!playerName.valid && playerName.dirty && playerName.touched) {
+      <p class="text-red-500 text-sm mb-2">Please enter correct name</p>
+      }
+      <button
+        type="submit"
+        class="bg-blue-500 px-3 py-2 text-slate-200 rounded-lg text-sm w-52 align-self-center mb-2"
+        [disabled]="!playerName.valid"
+      >
+        Save
+      </button>
+    </form>
+  </div>
+</div>

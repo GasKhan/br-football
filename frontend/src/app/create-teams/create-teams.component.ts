@@ -6,11 +6,17 @@ import { Player } from '../shared/types/types';
 import { TeamColors } from '../shared/types/enums';
 import { TeamPlayersComponent } from './team-players/team-players.component';
 import { AddPlayerInputComponent } from './add-player-input/add-player-input.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-game-page',
   standalone: true,
-  imports: [TeamPlayersComponent, AsyncPipe, AddPlayerInputComponent],
+  imports: [
+    TeamPlayersComponent,
+    AsyncPipe,
+    AddPlayerInputComponent,
+    RouterLink,
+  ],
   templateUrl: './create-teams.component.html',
   styleUrl: './create-teams.component.css',
 })
