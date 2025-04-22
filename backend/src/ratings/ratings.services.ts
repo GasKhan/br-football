@@ -17,18 +17,26 @@ export const getRatingService = async (
   return playerRating[0];
 };
 
-export const getRatingsService = async () => {
-  const playerRating = await dbPool.query(
-    `SELECT AVG(rating) as rating, p.player_name as playerName
-    FROM ratings as r 
-    INNER JOIN players as p
-    ON r.team_player_id = p.player_id
-    GROUP BY r.player_id
-    ORDER BY AVG(rating)
-    `
+export const getRatingsService = async (month?: number) => {
+  //TODO: remove 4
+  month = month || 4 || new Date().getMonth();
+  const playerRatingsWithGames = await dbPool.query(
+    `SELECT 
+       p.player_name AS playerName,
+       AVG(r.rating) AS rating
+     FROM players AS p
+     INNER JOIN teams_players AS t_p ON p.player_id = t_p.player_id
+     INNER JOIN ratings AS r ON t_p.team_player_id = r.team_player_id
+     INNER JOIN teams AS t ON t_p.team_id = t.team_id
+     INNER JOIN games AS g ON t.game_id = g.game_id
+     WHERE MONTH(g.date) = ?
+     GROUP BY p.player_id
+     ORDER BY AVG(r.rating) DESC
+    `,
+    [month]
   );
 
-  return playerRating[0];
+  return playerRatingsWithGames[0];
 };
 
 export const getWinsInfoByPlayerId = async (playerId: number) => {

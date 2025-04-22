@@ -12,10 +12,10 @@ export class GameApiService {
     }
   }
 
-  saveGameResults(gameResult: GameResult) {
+  saveGameResults(gameResults: GameResult) {
     return this.http.post<GameResult>(
       'http://localhost:5000/api/games/results',
-      gameResult
+      { gameResults }
     );
   }
   constructor(private http: HttpClient) {}

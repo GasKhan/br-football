@@ -6,6 +6,7 @@ import { GamePageComponent } from './game-page/game-page.component';
 import { gamePageResolver } from './game-page/game.resolver';
 import { PlayersPageComponent } from './players-page/players-page.component';
 import { createTeamsGuard } from './create-teams/create-teams.guard';
+import { RatingsPageComponent } from './ratings-page/ratings-page.component';
 
 export const routes: Routes = [
   {
@@ -28,5 +29,6 @@ export const routes: Routes = [
     component: GamePageComponent,
     resolve: { gameData: gamePageResolver },
   },
+  { path: 'ratings', component: RatingsPageComponent },
   { path: '', component: MainPageComponent },
 ];

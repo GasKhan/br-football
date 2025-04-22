@@ -67,6 +67,7 @@ export const setGameController = async (req: Request, res: Response) => {
 
 export const setGameResultsController = async (req: Request, res: Response) => {
   const { gameResults } = req.body;
+  console.log(req.body);
   try {
     if (!gameResults)
       res.status(401).send({ message: 'Game results wasnt provided' });

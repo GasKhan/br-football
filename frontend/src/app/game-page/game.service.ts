@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GameApiService } from './gameApi.service';
 import { BehaviorSubject, Observable, take, tap } from 'rxjs';
 import { Game, Rating, TeamPoints } from '../shared/types/types';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -95,6 +96,7 @@ export class GameService {
       next: () => {
         console.log('Results saved successfully!');
         this._isAllFieldsFilledError.next(false);
+        this.router.navigate(['/game']);
       },
       error: (error) => {
         console.error('Error saving results:', error);
@@ -102,5 +104,5 @@ export class GameService {
     });
   }
 
-  constructor(private gameApiService: GameApiService) {}
+  constructor(private gameApiService: GameApiService, private router: Router) {}
 }

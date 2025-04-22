@@ -156,6 +156,7 @@ const getPlayersFromTeam = async (
   return players;
 };
 
+//TODO: setGameInactive doesnt work
 const setGameIsInactive = async (gameId: number) => {
   await dbPool.query(
     `UPDATE games
@@ -180,7 +181,6 @@ const setGamePointsService = async (gameResults: ResultObj[]) => {
   );
   return res;
 };
-
 const setRatingsService = async (ratings: RatingObj[]) => {
   const sqlInsertValues = ratings
     .map((ratingObj) => {

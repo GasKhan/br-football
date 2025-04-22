@@ -4,7 +4,6 @@ import {
   getRatingsService,
   getWinsInfoByPlayerId,
 } from './ratings.services';
-import { GameResult } from '../models';
 
 export const getTopRatings = async (req: Request, res: Response) => {
   try {

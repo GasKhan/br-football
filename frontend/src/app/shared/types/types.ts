@@ -31,6 +31,8 @@ export type Rating = {
   playerRating: number;
 };
 
+export type AvgRating = { playerName: string; rating: string };
+
 export type GameResult = {
   ratings: Rating[];
   results: TeamPoints[];
