@@ -6,8 +6,9 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { map, take } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { GameApiService } from '../game-page/gameApi.service';
+import { of } from 'rxjs';
 
 export const createTeamsGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
@@ -20,9 +21,16 @@ export const createTeamsGuard: CanActivateFn = (
   return gameApiService.getGameData().pipe(
     take(1),
     map((game) => {
-      if (!game) return true;
+      if (!game) {
+        console.log('No game data found, allowing access to create teams page');
+        return true;
+      }
       console.log('Game already exists, redirecting to game page');
       return router.createUrlTree(['/game']);
+    }),
+    catchError((err) => {
+      console.error('Error fetching game data', err);
+      return of(true);
     })
   );
 };

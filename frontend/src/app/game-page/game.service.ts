@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameApiService } from './gameApi.service';
-import { BehaviorSubject, Observable, take, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, take, tap } from 'rxjs';
 import { Game, Rating, TeamPoints } from '../shared/types/types';
 import { Router } from '@angular/router';
 
@@ -20,6 +20,10 @@ export class GameService {
         take(1),
         tap((gameData) => {
           console.log('gameData', gameData);
+        }),
+        catchError((error) => {
+          console.error('Error fetching game data:', error);
+          throw error;
         })
       )
       .subscribe((gameData) => {
