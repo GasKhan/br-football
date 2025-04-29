@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id     Int   @id @default(autoincrement())
+  name   String @db.VarChar(255)
+  teams Team[]
+  ratings Rating[]
+
+  @@map("players")
+}
+
+model Game {
+  id     Int   @id @default(autoincrement())
+  date   DateTime  @default(now())
+  isActive Boolean @default(true) @map("is_active")
+  teams  Team[]
+
+  @@map("games")
+}
+//TODO: Each player can only be in one team per game
+model Team {
+  id     Int   @id @default(autoincrement())
+  gameId Int  @map("game_id")
+  game   Game   @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_ibfk_1")
+  points Int
+  teamColor TeamColor @map("team_color")  
+  players Player[]
+
+  @@map("teams")
+}
+
+model Rating {
+  id     Int   @id @default(autoincrement())
+  playerId Int @map("player_id")
+  player Player @relation(fields: [playerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rating_ibfk_1")
+  rating Float
+  //TODO: Add constraint at migration Rating should be between 0 and 5
+  @@map("ratings")
+}
+
+ enum TeamColor {
+  BLUE
+  RED
+  YELLOW
+}
+
+// model post {
+//   id        Int      @id @default(autoincrement())
+//   title     String   @db.VarChar(255)
+//   createdAt DateTime @default(now()) @db.Timestamp(0)
+//   content   String?  @db.Text
+//   published Boolean  @default(false)
+//   authorId  Int
+//   user      user     @relation(fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "post_ibfk_1")
+
+//   @@index([authorId], map: "authorId")
+// }

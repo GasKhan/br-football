@@ -5,10 +5,11 @@ import {
   getPlayersController,
   getPlayerController,
   editPlayerController,
+  getPlayersByNameController,
 } from './players.controllers';
 export const router = Router();
 
-// router.get('/:nameSmpl', getPlayersController);
+router.get('/:nameSmpl', getPlayersByNameController);
 
 router.get('/', getPlayersController);
 

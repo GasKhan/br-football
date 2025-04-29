@@ -2,7 +2,7 @@ import { ResultSetHeader } from 'mysql2';
 import { PoolConnection } from 'mysql2/promise';
 import { dbPool } from '../db';
 import { toMySQLTime } from '../shared/toMySQLTime';
-import { Team } from '../models/team.model';
+import { Team } from '../types/team.model';
 import {
   GameResult,
   IGame,

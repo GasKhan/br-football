@@ -1,5 +1,5 @@
 import { dbPool } from '../db';
-import { ScoreData } from '../models/score.model';
+import { ScoreData } from '../types/score.model';
 
 export const getPlayerAssistsService = async (playerId: number) => {
   const goals = await dbPool.query(

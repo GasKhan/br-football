@@ -25,6 +25,6 @@ app.get('/api', (req, res) => {
   res.json({ message: 'Got your request' });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Listening on port ${PORT}`);
 });

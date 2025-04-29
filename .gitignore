@@ -25,3 +25,6 @@ node_modules
 # Optional eslint cache
 .eslintcache
 .vscode/
+
+# Prisma files
+generated/prisma/

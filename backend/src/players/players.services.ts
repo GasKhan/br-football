@@ -1,7 +1,25 @@
 import { dbPool } from '../db';
+import { PrismaClient } from '../../generated/prisma';
+const prisma = new PrismaClient();
+// use `prisma` in your application to read and write data in your DB
+
+export const getPlayerbyNameService = async (nameSmpl: string) => {
+  console.log('nameSmpl', nameSmpl);
+  const players = await prisma.player.findMany({
+    where: {
+      name: {
+        contains: nameSmpl,
+      },
+    },
+  });
+  console.log('players', players);
+  return players;
+};
 
 export const getPlayersService = async () => {
-  const players = await dbPool.query(`SELECT player_id AS playerId, player_name AS playerName FROM players`);
+  const players = await dbPool.query(
+    `SELECT player_id AS playerId, player_name AS playerName FROM players`
+  );
   return players[0];
 };
 

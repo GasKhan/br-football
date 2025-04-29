@@ -5,7 +5,26 @@ import {
   getPlayerByIdService,
   getPlayersService,
   editPlayerService,
+  getPlayerbyNameService,
 } from './players.services';
+
+export const getPlayersByNameController = async (
+  req: Request,
+  res: Response
+) => {
+  const nameSmpl = req.params['nameSmpl'];
+  try {
+    if (!nameSmpl) {
+      res.status(400).send({ message: 'Player name wasnt provided' });
+    } else {
+      const players = await getPlayerbyNameService(nameSmpl);
+      res.status(200).json(players);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: 'Server error' });
+  }
+};
 
 export const getPlayersController = async (req: Request, res: Response) => {
   try {
