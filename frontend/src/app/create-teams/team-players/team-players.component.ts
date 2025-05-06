@@ -13,7 +13,7 @@ export class TeamPlayersComponent {
   @Output() removePlayer = new EventEmitter<Player>();
 
   onRemovePlayer(player: Player) {
-    console.log('Removint player with id', player.playerId);
+    console.log('Removint player with id', player.id);
     this.removePlayer.emit(player);
   }
 }

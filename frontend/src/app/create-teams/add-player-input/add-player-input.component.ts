@@ -45,7 +45,7 @@ export class AddPlayerInputComponent {
 
   onSelectPlayer(player: Player | null) {
     if (player) {
-      this.inputPlayerName.setValue(player.playerName);
+      this.inputPlayerName.setValue(player.name);
     } else this.inputPlayerName.setValue('');
 
     this.selectedPlayer = player;

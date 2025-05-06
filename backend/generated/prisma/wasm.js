@@ -138,6 +138,7 @@ exports.Prisma.TeamScalarFieldEnum = {
 exports.Prisma.RatingScalarFieldEnum = {
   id: 'id',
   playerId: 'playerId',
+  gameId: 'gameId',
   rating: 'rating'
 };
 

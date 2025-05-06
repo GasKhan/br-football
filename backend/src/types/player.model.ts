@@ -1,4 +1,9 @@
+import { RatingObj } from '../models';
+import { Team } from './team.model';
+
 export interface Player {
-  playerId: number;
-  playerName: string;
+  id: number;
+  name: string;
+  teams: Team[];
+  ratings: RatingObj[];
 }

@@ -1169,10 +1169,12 @@ export namespace Prisma {
 
   export type GameCountOutputType = {
     teams: number
+    ratings: number
   }
 
   export type GameCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teams?: boolean | GameCountOutputTypeCountTeamsArgs
+    ratings?: boolean | GameCountOutputTypeCountRatingsArgs
   }
 
   // Custom InputTypes
@@ -1191,6 +1193,13 @@ export namespace Prisma {
    */
   export type GameCountOutputTypeCountTeamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TeamWhereInput
+  }
+
+  /**
+   * GameCountOutputType without action
+   */
+  export type GameCountOutputTypeCountRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
   }
 
 
@@ -2396,6 +2405,7 @@ export namespace Prisma {
     date?: boolean
     isActive?: boolean
     teams?: boolean | Game$teamsArgs<ExtArgs>
+    ratings?: boolean | Game$ratingsArgs<ExtArgs>
     _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["game"]>
 
@@ -2410,6 +2420,7 @@ export namespace Prisma {
   export type GameOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "date" | "isActive", ExtArgs["result"]["game"]>
   export type GameInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teams?: boolean | Game$teamsArgs<ExtArgs>
+    ratings?: boolean | Game$ratingsArgs<ExtArgs>
     _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2417,6 +2428,7 @@ export namespace Prisma {
     name: "Game"
     objects: {
       teams: Prisma.$TeamPayload<ExtArgs>[]
+      ratings: Prisma.$RatingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2763,6 +2775,7 @@ export namespace Prisma {
   export interface Prisma__GameClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     teams<T extends Game$teamsArgs<ExtArgs> = {}>(args?: Subset<T, Game$teamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ratings<T extends Game$ratingsArgs<ExtArgs> = {}>(args?: Subset<T, Game$ratingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3159,6 +3172,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TeamScalarFieldEnum | TeamScalarFieldEnum[]
+  }
+
+  /**
+   * Game.ratings
+   */
+  export type Game$ratingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    cursor?: RatingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
   }
 
   /**
@@ -4185,30 +4222,35 @@ export namespace Prisma {
   export type RatingAvgAggregateOutputType = {
     id: number | null
     playerId: number | null
+    gameId: number | null
     rating: number | null
   }
 
   export type RatingSumAggregateOutputType = {
     id: number | null
     playerId: number | null
+    gameId: number | null
     rating: number | null
   }
 
   export type RatingMinAggregateOutputType = {
     id: number | null
     playerId: number | null
+    gameId: number | null
     rating: number | null
   }
 
   export type RatingMaxAggregateOutputType = {
     id: number | null
     playerId: number | null
+    gameId: number | null
     rating: number | null
   }
 
   export type RatingCountAggregateOutputType = {
     id: number
     playerId: number
+    gameId: number
     rating: number
     _all: number
   }
@@ -4217,30 +4259,35 @@ export namespace Prisma {
   export type RatingAvgAggregateInputType = {
     id?: true
     playerId?: true
+    gameId?: true
     rating?: true
   }
 
   export type RatingSumAggregateInputType = {
     id?: true
     playerId?: true
+    gameId?: true
     rating?: true
   }
 
   export type RatingMinAggregateInputType = {
     id?: true
     playerId?: true
+    gameId?: true
     rating?: true
   }
 
   export type RatingMaxAggregateInputType = {
     id?: true
     playerId?: true
+    gameId?: true
     rating?: true
   }
 
   export type RatingCountAggregateInputType = {
     id?: true
     playerId?: true
+    gameId?: true
     rating?: true
     _all?: true
   }
@@ -4334,6 +4381,7 @@ export namespace Prisma {
   export type RatingGroupByOutputType = {
     id: number
     playerId: number
+    gameId: number
     rating: number
     _count: RatingCountAggregateOutputType | null
     _avg: RatingAvgAggregateOutputType | null
@@ -4359,7 +4407,9 @@ export namespace Prisma {
   export type RatingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     playerId?: boolean
+    gameId?: boolean
     rating?: boolean
+    game?: boolean | GameDefaultArgs<ExtArgs>
     player?: boolean | PlayerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rating"]>
 
@@ -4368,22 +4418,26 @@ export namespace Prisma {
   export type RatingSelectScalar = {
     id?: boolean
     playerId?: boolean
+    gameId?: boolean
     rating?: boolean
   }
 
-  export type RatingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "playerId" | "rating", ExtArgs["result"]["rating"]>
+  export type RatingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "playerId" | "gameId" | "rating", ExtArgs["result"]["rating"]>
   export type RatingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    game?: boolean | GameDefaultArgs<ExtArgs>
     player?: boolean | PlayerDefaultArgs<ExtArgs>
   }
 
   export type $RatingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Rating"
     objects: {
+      game: Prisma.$GamePayload<ExtArgs>
       player: Prisma.$PlayerPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       playerId: number
+      gameId: number
       rating: number
     }, ExtArgs["result"]["rating"]>
     composites: {}
@@ -4725,6 +4779,7 @@ export namespace Prisma {
    */
   export interface Prisma__RatingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    game<T extends GameDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GameDefaultArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     player<T extends PlayerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlayerDefaultArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4757,6 +4812,7 @@ export namespace Prisma {
   interface RatingFieldRefs {
     readonly id: FieldRef<"Rating", 'Int'>
     readonly playerId: FieldRef<"Rating", 'Int'>
+    readonly gameId: FieldRef<"Rating", 'Int'>
     readonly rating: FieldRef<"Rating", 'Float'>
   }
     
@@ -5163,6 +5219,7 @@ export namespace Prisma {
   export const RatingScalarFieldEnum: {
     id: 'id',
     playerId: 'playerId',
+    gameId: 'gameId',
     rating: 'rating'
   };
 
@@ -5254,13 +5311,13 @@ export namespace Prisma {
 
   export type PlayerWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    name?: string
     AND?: PlayerWhereInput | PlayerWhereInput[]
     OR?: PlayerWhereInput[]
     NOT?: PlayerWhereInput | PlayerWhereInput[]
-    name?: StringFilter<"Player"> | string
     teams?: TeamListRelationFilter
     ratings?: RatingListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type PlayerOrderByWithAggregationInput = {
     id?: SortOrder
@@ -5288,6 +5345,7 @@ export namespace Prisma {
     date?: DateTimeFilter<"Game"> | Date | string
     isActive?: BoolFilter<"Game"> | boolean
     teams?: TeamListRelationFilter
+    ratings?: RatingListRelationFilter
   }
 
   export type GameOrderByWithRelationInput = {
@@ -5295,6 +5353,7 @@ export namespace Prisma {
     date?: SortOrder
     isActive?: SortOrder
     teams?: TeamOrderByRelationAggregateInput
+    ratings?: RatingOrderByRelationAggregateInput
   }
 
   export type GameWhereUniqueInput = Prisma.AtLeast<{
@@ -5305,6 +5364,7 @@ export namespace Prisma {
     date?: DateTimeFilter<"Game"> | Date | string
     isActive?: BoolFilter<"Game"> | boolean
     teams?: TeamListRelationFilter
+    ratings?: RatingListRelationFilter
   }, "id">
 
   export type GameOrderByWithAggregationInput = {
@@ -5388,14 +5448,18 @@ export namespace Prisma {
     NOT?: RatingWhereInput | RatingWhereInput[]
     id?: IntFilter<"Rating"> | number
     playerId?: IntFilter<"Rating"> | number
+    gameId?: IntFilter<"Rating"> | number
     rating?: FloatFilter<"Rating"> | number
+    game?: XOR<GameScalarRelationFilter, GameWhereInput>
     player?: XOR<PlayerScalarRelationFilter, PlayerWhereInput>
   }
 
   export type RatingOrderByWithRelationInput = {
     id?: SortOrder
     playerId?: SortOrder
+    gameId?: SortOrder
     rating?: SortOrder
+    game?: GameOrderByWithRelationInput
     player?: PlayerOrderByWithRelationInput
   }
 
@@ -5405,13 +5469,16 @@ export namespace Prisma {
     OR?: RatingWhereInput[]
     NOT?: RatingWhereInput | RatingWhereInput[]
     playerId?: IntFilter<"Rating"> | number
+    gameId?: IntFilter<"Rating"> | number
     rating?: FloatFilter<"Rating"> | number
+    game?: XOR<GameScalarRelationFilter, GameWhereInput>
     player?: XOR<PlayerScalarRelationFilter, PlayerWhereInput>
   }, "id">
 
   export type RatingOrderByWithAggregationInput = {
     id?: SortOrder
     playerId?: SortOrder
+    gameId?: SortOrder
     rating?: SortOrder
     _count?: RatingCountOrderByAggregateInput
     _avg?: RatingAvgOrderByAggregateInput
@@ -5426,6 +5493,7 @@ export namespace Prisma {
     NOT?: RatingScalarWhereWithAggregatesInput | RatingScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Rating"> | number
     playerId?: IntWithAggregatesFilter<"Rating"> | number
+    gameId?: IntWithAggregatesFilter<"Rating"> | number
     rating?: FloatWithAggregatesFilter<"Rating"> | number
   }
 
@@ -5473,6 +5541,7 @@ export namespace Prisma {
     date?: Date | string
     isActive?: boolean
     teams?: TeamCreateNestedManyWithoutGameInput
+    ratings?: RatingCreateNestedManyWithoutGameInput
   }
 
   export type GameUncheckedCreateInput = {
@@ -5480,12 +5549,14 @@ export namespace Prisma {
     date?: Date | string
     isActive?: boolean
     teams?: TeamUncheckedCreateNestedManyWithoutGameInput
+    ratings?: RatingUncheckedCreateNestedManyWithoutGameInput
   }
 
   export type GameUpdateInput = {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     teams?: TeamUpdateManyWithoutGameNestedInput
+    ratings?: RatingUpdateManyWithoutGameNestedInput
   }
 
   export type GameUncheckedUpdateInput = {
@@ -5493,6 +5564,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
     teams?: TeamUncheckedUpdateManyWithoutGameNestedInput
+    ratings?: RatingUncheckedUpdateManyWithoutGameNestedInput
   }
 
   export type GameCreateManyInput = {
@@ -5513,7 +5585,7 @@ export namespace Prisma {
   }
 
   export type TeamCreateInput = {
-    points: number
+    points?: number
     teamColor: $Enums.TeamColor
     game: GameCreateNestedOneWithoutTeamsInput
     players?: PlayerCreateNestedManyWithoutTeamsInput
@@ -5522,7 +5594,7 @@ export namespace Prisma {
   export type TeamUncheckedCreateInput = {
     id?: number
     gameId: number
-    points: number
+    points?: number
     teamColor: $Enums.TeamColor
     players?: PlayerUncheckedCreateNestedManyWithoutTeamsInput
   }
@@ -5545,7 +5617,7 @@ export namespace Prisma {
   export type TeamCreateManyInput = {
     id?: number
     gameId: number
-    points: number
+    points?: number
     teamColor: $Enums.TeamColor
   }
 
@@ -5563,29 +5635,34 @@ export namespace Prisma {
 
   export type RatingCreateInput = {
     rating: number
+    game: GameCreateNestedOneWithoutRatingsInput
     player: PlayerCreateNestedOneWithoutRatingsInput
   }
 
   export type RatingUncheckedCreateInput = {
     id?: number
     playerId: number
+    gameId: number
     rating: number
   }
 
   export type RatingUpdateInput = {
     rating?: FloatFieldUpdateOperationsInput | number
+    game?: GameUpdateOneRequiredWithoutRatingsNestedInput
     player?: PlayerUpdateOneRequiredWithoutRatingsNestedInput
   }
 
   export type RatingUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     playerId?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
   }
 
   export type RatingCreateManyInput = {
     id?: number
     playerId: number
+    gameId: number
     rating: number
   }
 
@@ -5596,6 +5673,7 @@ export namespace Prisma {
   export type RatingUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     playerId?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
   }
 
@@ -5856,30 +5934,35 @@ export namespace Prisma {
   export type RatingCountOrderByAggregateInput = {
     id?: SortOrder
     playerId?: SortOrder
+    gameId?: SortOrder
     rating?: SortOrder
   }
 
   export type RatingAvgOrderByAggregateInput = {
     id?: SortOrder
     playerId?: SortOrder
+    gameId?: SortOrder
     rating?: SortOrder
   }
 
   export type RatingMaxOrderByAggregateInput = {
     id?: SortOrder
     playerId?: SortOrder
+    gameId?: SortOrder
     rating?: SortOrder
   }
 
   export type RatingMinOrderByAggregateInput = {
     id?: SortOrder
     playerId?: SortOrder
+    gameId?: SortOrder
     rating?: SortOrder
   }
 
   export type RatingSumOrderByAggregateInput = {
     id?: SortOrder
     playerId?: SortOrder
+    gameId?: SortOrder
     rating?: SortOrder
   }
 
@@ -5998,11 +6081,25 @@ export namespace Prisma {
     connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
   }
 
+  export type RatingCreateNestedManyWithoutGameInput = {
+    create?: XOR<RatingCreateWithoutGameInput, RatingUncheckedCreateWithoutGameInput> | RatingCreateWithoutGameInput[] | RatingUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutGameInput | RatingCreateOrConnectWithoutGameInput[]
+    createMany?: RatingCreateManyGameInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
   export type TeamUncheckedCreateNestedManyWithoutGameInput = {
     create?: XOR<TeamCreateWithoutGameInput, TeamUncheckedCreateWithoutGameInput> | TeamCreateWithoutGameInput[] | TeamUncheckedCreateWithoutGameInput[]
     connectOrCreate?: TeamCreateOrConnectWithoutGameInput | TeamCreateOrConnectWithoutGameInput[]
     createMany?: TeamCreateManyGameInputEnvelope
     connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
+  }
+
+  export type RatingUncheckedCreateNestedManyWithoutGameInput = {
+    create?: XOR<RatingCreateWithoutGameInput, RatingUncheckedCreateWithoutGameInput> | RatingCreateWithoutGameInput[] | RatingUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutGameInput | RatingCreateOrConnectWithoutGameInput[]
+    createMany?: RatingCreateManyGameInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -6027,6 +6124,20 @@ export namespace Prisma {
     deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
   }
 
+  export type RatingUpdateManyWithoutGameNestedInput = {
+    create?: XOR<RatingCreateWithoutGameInput, RatingUncheckedCreateWithoutGameInput> | RatingCreateWithoutGameInput[] | RatingUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutGameInput | RatingCreateOrConnectWithoutGameInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutGameInput | RatingUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: RatingCreateManyGameInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutGameInput | RatingUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutGameInput | RatingUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
   export type TeamUncheckedUpdateManyWithoutGameNestedInput = {
     create?: XOR<TeamCreateWithoutGameInput, TeamUncheckedCreateWithoutGameInput> | TeamCreateWithoutGameInput[] | TeamUncheckedCreateWithoutGameInput[]
     connectOrCreate?: TeamCreateOrConnectWithoutGameInput | TeamCreateOrConnectWithoutGameInput[]
@@ -6039,6 +6150,20 @@ export namespace Prisma {
     update?: TeamUpdateWithWhereUniqueWithoutGameInput | TeamUpdateWithWhereUniqueWithoutGameInput[]
     updateMany?: TeamUpdateManyWithWhereWithoutGameInput | TeamUpdateManyWithWhereWithoutGameInput[]
     deleteMany?: TeamScalarWhereInput | TeamScalarWhereInput[]
+  }
+
+  export type RatingUncheckedUpdateManyWithoutGameNestedInput = {
+    create?: XOR<RatingCreateWithoutGameInput, RatingUncheckedCreateWithoutGameInput> | RatingCreateWithoutGameInput[] | RatingUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutGameInput | RatingCreateOrConnectWithoutGameInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutGameInput | RatingUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: RatingCreateManyGameInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutGameInput | RatingUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutGameInput | RatingUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
   }
 
   export type GameCreateNestedOneWithoutTeamsInput = {
@@ -6097,6 +6222,12 @@ export namespace Prisma {
     deleteMany?: PlayerScalarWhereInput | PlayerScalarWhereInput[]
   }
 
+  export type GameCreateNestedOneWithoutRatingsInput = {
+    create?: XOR<GameCreateWithoutRatingsInput, GameUncheckedCreateWithoutRatingsInput>
+    connectOrCreate?: GameCreateOrConnectWithoutRatingsInput
+    connect?: GameWhereUniqueInput
+  }
+
   export type PlayerCreateNestedOneWithoutRatingsInput = {
     create?: XOR<PlayerCreateWithoutRatingsInput, PlayerUncheckedCreateWithoutRatingsInput>
     connectOrCreate?: PlayerCreateOrConnectWithoutRatingsInput
@@ -6109,6 +6240,14 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type GameUpdateOneRequiredWithoutRatingsNestedInput = {
+    create?: XOR<GameCreateWithoutRatingsInput, GameUncheckedCreateWithoutRatingsInput>
+    connectOrCreate?: GameCreateOrConnectWithoutRatingsInput
+    upsert?: GameUpsertWithoutRatingsInput
+    connect?: GameWhereUniqueInput
+    update?: XOR<XOR<GameUpdateToOneWithWhereWithoutRatingsInput, GameUpdateWithoutRatingsInput>, GameUncheckedUpdateWithoutRatingsInput>
   }
 
   export type PlayerUpdateOneRequiredWithoutRatingsNestedInput = {
@@ -6262,7 +6401,7 @@ export namespace Prisma {
   }
 
   export type TeamCreateWithoutPlayersInput = {
-    points: number
+    points?: number
     teamColor: $Enums.TeamColor
     game: GameCreateNestedOneWithoutTeamsInput
   }
@@ -6270,7 +6409,7 @@ export namespace Prisma {
   export type TeamUncheckedCreateWithoutPlayersInput = {
     id?: number
     gameId: number
-    points: number
+    points?: number
     teamColor: $Enums.TeamColor
   }
 
@@ -6281,10 +6420,12 @@ export namespace Prisma {
 
   export type RatingCreateWithoutPlayerInput = {
     rating: number
+    game: GameCreateNestedOneWithoutRatingsInput
   }
 
   export type RatingUncheckedCreateWithoutPlayerInput = {
     id?: number
+    gameId: number
     rating: number
   }
 
@@ -6346,18 +6487,19 @@ export namespace Prisma {
     NOT?: RatingScalarWhereInput | RatingScalarWhereInput[]
     id?: IntFilter<"Rating"> | number
     playerId?: IntFilter<"Rating"> | number
+    gameId?: IntFilter<"Rating"> | number
     rating?: FloatFilter<"Rating"> | number
   }
 
   export type TeamCreateWithoutGameInput = {
-    points: number
+    points?: number
     teamColor: $Enums.TeamColor
     players?: PlayerCreateNestedManyWithoutTeamsInput
   }
 
   export type TeamUncheckedCreateWithoutGameInput = {
     id?: number
-    points: number
+    points?: number
     teamColor: $Enums.TeamColor
     players?: PlayerUncheckedCreateNestedManyWithoutTeamsInput
   }
@@ -6369,6 +6511,27 @@ export namespace Prisma {
 
   export type TeamCreateManyGameInputEnvelope = {
     data: TeamCreateManyGameInput | TeamCreateManyGameInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RatingCreateWithoutGameInput = {
+    rating: number
+    player: PlayerCreateNestedOneWithoutRatingsInput
+  }
+
+  export type RatingUncheckedCreateWithoutGameInput = {
+    id?: number
+    playerId: number
+    rating: number
+  }
+
+  export type RatingCreateOrConnectWithoutGameInput = {
+    where: RatingWhereUniqueInput
+    create: XOR<RatingCreateWithoutGameInput, RatingUncheckedCreateWithoutGameInput>
+  }
+
+  export type RatingCreateManyGameInputEnvelope = {
+    data: RatingCreateManyGameInput | RatingCreateManyGameInput[]
     skipDuplicates?: boolean
   }
 
@@ -6388,15 +6551,33 @@ export namespace Prisma {
     data: XOR<TeamUpdateManyMutationInput, TeamUncheckedUpdateManyWithoutGameInput>
   }
 
+  export type RatingUpsertWithWhereUniqueWithoutGameInput = {
+    where: RatingWhereUniqueInput
+    update: XOR<RatingUpdateWithoutGameInput, RatingUncheckedUpdateWithoutGameInput>
+    create: XOR<RatingCreateWithoutGameInput, RatingUncheckedCreateWithoutGameInput>
+  }
+
+  export type RatingUpdateWithWhereUniqueWithoutGameInput = {
+    where: RatingWhereUniqueInput
+    data: XOR<RatingUpdateWithoutGameInput, RatingUncheckedUpdateWithoutGameInput>
+  }
+
+  export type RatingUpdateManyWithWhereWithoutGameInput = {
+    where: RatingScalarWhereInput
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyWithoutGameInput>
+  }
+
   export type GameCreateWithoutTeamsInput = {
     date?: Date | string
     isActive?: boolean
+    ratings?: RatingCreateNestedManyWithoutGameInput
   }
 
   export type GameUncheckedCreateWithoutTeamsInput = {
     id?: number
     date?: Date | string
     isActive?: boolean
+    ratings?: RatingUncheckedCreateNestedManyWithoutGameInput
   }
 
   export type GameCreateOrConnectWithoutTeamsInput = {
@@ -6434,12 +6615,14 @@ export namespace Prisma {
   export type GameUpdateWithoutTeamsInput = {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    ratings?: RatingUpdateManyWithoutGameNestedInput
   }
 
   export type GameUncheckedUpdateWithoutTeamsInput = {
     id?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    ratings?: RatingUncheckedUpdateManyWithoutGameNestedInput
   }
 
   export type PlayerUpsertWithWhereUniqueWithoutTeamsInput = {
@@ -6466,6 +6649,24 @@ export namespace Prisma {
     name?: StringFilter<"Player"> | string
   }
 
+  export type GameCreateWithoutRatingsInput = {
+    date?: Date | string
+    isActive?: boolean
+    teams?: TeamCreateNestedManyWithoutGameInput
+  }
+
+  export type GameUncheckedCreateWithoutRatingsInput = {
+    id?: number
+    date?: Date | string
+    isActive?: boolean
+    teams?: TeamUncheckedCreateNestedManyWithoutGameInput
+  }
+
+  export type GameCreateOrConnectWithoutRatingsInput = {
+    where: GameWhereUniqueInput
+    create: XOR<GameCreateWithoutRatingsInput, GameUncheckedCreateWithoutRatingsInput>
+  }
+
   export type PlayerCreateWithoutRatingsInput = {
     name: string
     teams?: TeamCreateNestedManyWithoutPlayersInput
@@ -6480,6 +6681,30 @@ export namespace Prisma {
   export type PlayerCreateOrConnectWithoutRatingsInput = {
     where: PlayerWhereUniqueInput
     create: XOR<PlayerCreateWithoutRatingsInput, PlayerUncheckedCreateWithoutRatingsInput>
+  }
+
+  export type GameUpsertWithoutRatingsInput = {
+    update: XOR<GameUpdateWithoutRatingsInput, GameUncheckedUpdateWithoutRatingsInput>
+    create: XOR<GameCreateWithoutRatingsInput, GameUncheckedCreateWithoutRatingsInput>
+    where?: GameWhereInput
+  }
+
+  export type GameUpdateToOneWithWhereWithoutRatingsInput = {
+    where?: GameWhereInput
+    data: XOR<GameUpdateWithoutRatingsInput, GameUncheckedUpdateWithoutRatingsInput>
+  }
+
+  export type GameUpdateWithoutRatingsInput = {
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    teams?: TeamUpdateManyWithoutGameNestedInput
+  }
+
+  export type GameUncheckedUpdateWithoutRatingsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    date?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    teams?: TeamUncheckedUpdateManyWithoutGameNestedInput
   }
 
   export type PlayerUpsertWithoutRatingsInput = {
@@ -6506,6 +6731,7 @@ export namespace Prisma {
 
   export type RatingCreateManyPlayerInput = {
     id?: number
+    gameId: number
     rating: number
   }
 
@@ -6531,22 +6757,31 @@ export namespace Prisma {
 
   export type RatingUpdateWithoutPlayerInput = {
     rating?: FloatFieldUpdateOperationsInput | number
+    game?: GameUpdateOneRequiredWithoutRatingsNestedInput
   }
 
   export type RatingUncheckedUpdateWithoutPlayerInput = {
     id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
   }
 
   export type RatingUncheckedUpdateManyWithoutPlayerInput = {
     id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
   }
 
   export type TeamCreateManyGameInput = {
     id?: number
-    points: number
+    points?: number
     teamColor: $Enums.TeamColor
+  }
+
+  export type RatingCreateManyGameInput = {
+    id?: number
+    playerId: number
+    rating: number
   }
 
   export type TeamUpdateWithoutGameInput = {
@@ -6566,6 +6801,23 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     points?: IntFieldUpdateOperationsInput | number
     teamColor?: EnumTeamColorFieldUpdateOperationsInput | $Enums.TeamColor
+  }
+
+  export type RatingUpdateWithoutGameInput = {
+    rating?: FloatFieldUpdateOperationsInput | number
+    player?: PlayerUpdateOneRequiredWithoutRatingsNestedInput
+  }
+
+  export type RatingUncheckedUpdateWithoutGameInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    playerId?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type RatingUncheckedUpdateManyWithoutGameInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    playerId?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
   }
 
   export type PlayerUpdateWithoutTeamsInput = {

@@ -28,15 +28,12 @@ export class GameService {
       )
       .subscribe((gameData) => {
         this._gameData = new BehaviorSubject<Game>(gameData);
+        console.log('gameData', gameData);
         this.gameData$ = this._gameData.asObservable();
       });
   }
 
-  setPlayerRating(
-    teamId: number,
-    teamPlayerId: number,
-    newRating: number
-  ): void {
+  setPlayerRating(teamId: number, playerId: number, newRating: number): void {
     const updatedGameData = {
       ...this._gameData.value,
       teams: this._gameData.value.teams.map((team) => {
@@ -44,7 +41,7 @@ export class GameService {
           return {
             ...team,
             players: team.players.map((player) => {
-              if (player.teamPlayerId === teamPlayerId) {
+              if (player.id === playerId) {
                 return { ...player, rating: newRating };
               }
               return player;
@@ -82,13 +79,13 @@ export class GameService {
 
       team.players.forEach((player) =>
         ratings.push({
-          teamPlayerId: player.teamPlayerId,
-          playerRating: player.rating,
+          playerId: player.id,
+          rating: player.rating,
         })
       );
     });
 
-    if (ratings.some((rating) => rating.playerRating === 0)) {
+    if (ratings.some((rating) => rating.rating === 0)) {
       this._isAllFieldsFilledError.next(true);
       return;
     }
@@ -96,16 +93,18 @@ export class GameService {
     console.log('gameResults', results);
     console.log('player ratings', ratings);
 
-    this.gameApiService.saveGameResults({ results, ratings }).subscribe({
-      next: () => {
-        console.log('Results saved successfully!');
-        this._isAllFieldsFilledError.next(false);
-        this.router.navigate(['/game']);
-      },
-      error: (error) => {
-        console.error('Error saving results:', error);
-      },
-    });
+    this.gameApiService
+      .saveGameResults({ gameId: this._gameData.value.id, results, ratings })
+      .subscribe({
+        next: () => {
+          console.log('Results saved successfully!');
+          this._isAllFieldsFilledError.next(false);
+          this.router.navigate(['/game']);
+        },
+        error: (error) => {
+          console.error('Error saving results:', error);
+        },
+      });
   }
 
   constructor(private gameApiService: GameApiService, private router: Router) {}

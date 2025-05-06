@@ -14,7 +14,7 @@
   <ul class="searched-players-list">
     @for (player of (searchedPlayers$ | async); track $index) {
     <li class="searched-players-item">
-      <a (click)="onSelectPlayer(player)">{{ player.playerName }}</a>
+      <a (click)="onSelectPlayer(player)">{{ player.name }}</a>
     </li>
     }
   </ul>

@@ -56,7 +56,7 @@ export class PlayersStore extends ComponentStore<PlayersState> {
     return this.players$.pipe(
       map((players) => {
         return players.filter((player) =>
-          player.playerName.toLowerCase().startsWith(lowerSubstr)
+          player.name.toLowerCase().startsWith(lowerSubstr)
         );
       })
     );

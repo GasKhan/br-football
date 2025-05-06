@@ -10,7 +10,7 @@ datasource db {
 
 model Player {
   id      Int      @id @default(autoincrement())
-  name    String   @db.VarChar(255)
+  name    String   @unique @db.VarChar(255)
   teams   Team[]
   ratings Rating[]
 
@@ -22,15 +22,17 @@ model Game {
   date     DateTime @default(now())
   isActive Boolean  @default(true) @map("is_active")
   teams    Team[]
+  ratings  Rating[]
 
   @@map("games")
 }
 
+//TODO: Each player can only be in one team per game
 model Team {
   id        Int       @id @default(autoincrement())
   gameId    Int       @map("game_id")
   game      Game      @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_ibfk_1")
-  points    Int
+  points    Int       @default(0)
   teamColor TeamColor @map("team_color")
   players   Player[]
 
@@ -40,10 +42,11 @@ model Team {
 model Rating {
   id       Int    @id @default(autoincrement())
   playerId Int    @map("player_id")
-  player   Player @relation(fields: [playerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rating_ibfk_1")
+  gameId   Int    @map("game_id")
   rating   Float
+  game     Game   @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rating_ibfk_2")
+  player   Player @relation(fields: [playerId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "rating_ibfk_1")
 
-  //TODO: Add constraint at migration Rating should be between 0 and 5
   @@map("ratings")
 }
 

@@ -23,7 +23,7 @@ export class TeamService {
   public createTeamError$ = this.createTeamError.asObservable();
 
   addPlayerToTeam(player: Player, teamColor: TeamColors) {
-    if (this.checkIsPlayerInTeams(player.playerId))
+    if (this.checkIsPlayerInTeams(player.id))
       throw new Error('Player has already been chosen');
 
     const editedTeams = this.teamsSubject.value.map((team) => {
@@ -45,7 +45,7 @@ export class TeamService {
         return {
           ...team,
           players: team.players.filter(
-            (curPlayer) => curPlayer.playerId !== player.playerId
+            (curPlayer) => curPlayer.id !== player.id
           ),
         };
       }
@@ -57,7 +57,7 @@ export class TeamService {
 
   checkIsPlayerInTeams(playerId: number) {
     return this.teamsSubject.value.some((team) =>
-      team.players.some((player) => player.playerId === playerId)
+      team.players.some((player) => player.id === playerId)
     );
   }
 

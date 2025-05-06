@@ -1,10 +1,9 @@
 import { TeamColors } from './enums';
 
 export type Player = {
-  playerId: number;
-  playerName: string;
+  id: number;
+  name: string;
   rating: number;
-  teamPlayerId: number;
 };
 
 export type Team = {
@@ -27,13 +26,14 @@ export type TeamPoints = {
 };
 
 export type Rating = {
-  teamPlayerId: number;
-  playerRating: number;
+  playerId: number;
+  rating: number;
 };
 
 export type AvgRating = { playerName: string; rating: string };
 
 export type GameResult = {
+  gameId: number;
   ratings: Rating[];
   results: TeamPoints[];
 };

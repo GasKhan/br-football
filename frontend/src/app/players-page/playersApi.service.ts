@@ -6,7 +6,7 @@ import { Player, Rating } from '../shared/types/types';
 export class PlayersService {
   createPlayer(playerName: string) {
     return this.http.post('http://localhost:5000/api/players', {
-      playerData: playerName,
+      playerData: { name: playerName },
     });
   }
 

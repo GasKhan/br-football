@@ -1,10 +1,10 @@
-@for(player of team.players; track player.playerId) {
+@for(player of team.players; track player.id) {
 <ul class="flex flex-col">
   <li
     class="flex items-baseline justify-between border-b-2 border-slate-500 mb-1"
   >
     <span>
-      {{ player.playerName }}
+      {{ player.name }}
     </span>
     <button
       type="button"

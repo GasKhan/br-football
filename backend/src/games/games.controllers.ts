@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import {
   checkIsActiveGameService,
-  getGameDataService,
+  getGameService,
   getGamesService,
   setGameResultService,
   setGameService,
@@ -23,7 +23,7 @@ export const getGameByIdController = async (req: Request, res: Response) => {
   try {
     if (!id) res.status(400).send({ message: 'Game id wasnt provided' });
     else {
-      const game = await getGameDataService(+id);
+      const game = await getGameService(+id);
       res.status(200).json(game);
     }
   } catch (err) {
@@ -33,7 +33,7 @@ export const getGameByIdController = async (req: Request, res: Response) => {
 };
 export const getActiveGameController = async (req: Request, res: Response) => {
   try {
-    const game = await getGameDataService();
+    const game = await getGameService();
     res.status(200).json(game);
   } catch (err) {
     if (err instanceof Error && err.message === 'Game not found') {
@@ -67,7 +67,7 @@ export const setGameController = async (req: Request, res: Response) => {
 
 export const setGameResultsController = async (req: Request, res: Response) => {
   const { gameResults } = req.body;
-  console.log(req.body);
+  console.log(gameResults);
   try {
     if (!gameResults)
       res.status(401).send({ message: 'Game results wasnt provided' });

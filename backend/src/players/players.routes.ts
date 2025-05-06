@@ -1,22 +1,20 @@
 import { Router } from 'express';
 import {
-  createPlayerController,
-  deletePlayerController,
-  getPlayersController,
-  getPlayerController,
-  editPlayerController,
-  getPlayersByNameController,
+  createPlayer,
+  deletePlayer,
+  getPlayerById,
+  editPlayer,
+  getPlayers,
 } from './players.controllers';
+
 export const router = Router();
 
-router.get('/:nameSmpl', getPlayersByNameController);
+router.get('/', getPlayers);
 
-router.get('/', getPlayersController);
+router.get('/:id', getPlayerById);
 
-router.get('/:id', getPlayerController);
+router.post('/', createPlayer);
 
-router.post('/', createPlayerController);
+router.patch('/:id', editPlayer);
 
-router.patch('/:id', editPlayerController);
-
-router.delete('/:id', deletePlayerController);
+router.delete('/:id', deletePlayer);

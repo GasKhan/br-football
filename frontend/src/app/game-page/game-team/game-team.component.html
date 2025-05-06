@@ -1,10 +1,11 @@
 <div class="flex">{{ team.id }}</div>
-@for(player of team.players; track player.playerId; let i = $index) {
+<div class="flex">{{ team.teamColor }}</div>
+@for(player of team.players; track player.name; let i = $index) {
 <ul class="flex flex-col">
   <li class="mb-2 p-1" [appListItemColor]="i">
     <div class="flex items-baseline justify-between">
       <span class="mr-1 font-semibold">
-        {{ player.playerName }}
+        {{ player.name }}
       </span>
       <input
         type="text"
@@ -16,7 +17,7 @@
             (rating?.dirty || rating?.touched) && rating.value == 0
         }"
         [(ngModel)]="player.rating"
-        (blur)="onRatingChange(player.teamPlayerId, $event)"
+        (blur)="onRatingChange(player.id, $event)"
         (keypress)="onKeyPress($event)"
         #rating="ngModel"
       />
