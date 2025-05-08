@@ -2,6 +2,7 @@ import { Team } from '../types/team.model';
 import { GameResult } from '../models';
 
 import { PrismaClient } from '../../generated/prisma';
+import { NotFoundError } from '../shared/errors/notFoundError';
 
 const prisma = new PrismaClient();
 
@@ -71,9 +72,9 @@ export const getGameService = async (id?: number) => {
   }
 
   if (!game) {
-    throw new Error(
-      'No game found with the given ID and no active games available.'
-    );
+    throw new NotFoundError({
+      message: 'No game found with the given ID and no active games available',
+    });
   }
 
   return game;

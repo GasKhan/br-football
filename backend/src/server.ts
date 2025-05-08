@@ -7,6 +7,7 @@ import { router as ratingsRouter } from './ratings/ratings.routes';
 import { router as goalsRouter } from './goals/goals.routes';
 import { router as teamsRouter } from './teams/teams-router';
 import { router as awardsRouter } from './awards/awards-router';
+import { errorMiddleware } from './middlewares/error.middleware';
 
 const app = express();
 const PORT = 5000;
@@ -20,6 +21,8 @@ app.use('/api/ratings', ratingsRouter);
 // app.use('/api/teams', teamsRouter);
 // app.use('/api/awards', awardsRouter);
 // app.use('/api/goals', goalsRouter);
+
+app.use(errorMiddleware);
 
 app.listen(PORT, async () => {
   console.log(`Listening on port ${PORT}`);

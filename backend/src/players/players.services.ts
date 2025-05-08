@@ -1,4 +1,5 @@
 import { PrismaClient } from '../../generated/prisma';
+import { NotFoundError } from '../shared/errors/notFoundError';
 const prisma = new PrismaClient();
 
 export const getPlayersService = async () => {
@@ -12,7 +13,7 @@ export const getPlayerByIdService = async (id: number) => {
   });
 
   if (!player) {
-    throw new Error('Player not found');
+    throw new NotFoundError({ message: 'Player not found' });
   }
   return player;
 };

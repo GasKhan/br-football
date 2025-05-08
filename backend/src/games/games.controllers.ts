@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import {
   checkIsActiveGameService,
   getGameService,
@@ -6,72 +6,86 @@ import {
   setGameResultService,
   setGameService,
 } from './games.services';
-//TODO: Add next call in every controller instead of res.send in catch blocks
-export const getGamesController = async (req: Request, res: Response) => {
+import { BadRequestError } from '../shared/errors/badRequestError';
+
+export const getGamesController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const games = await getGamesService();
     res.status(200).json(games);
   } catch (err) {
-    console.log(err);
-    res.status(500).send({ message: 'Server error' });
+    next(err);
   }
 };
 
-export const getGameByIdController = async (req: Request, res: Response) => {
+export const getGameByIdController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { id } = req.params;
 
   try {
-    if (!id) res.status(400).send({ message: 'Game id wasnt provided' });
+    if (!id) next(new BadRequestError({ message: 'Game id wasnt provided' }));
     else {
       const game = await getGameService(+id);
       res.status(200).json(game);
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send({ message: 'Server error' });
+    next(err);
   }
 };
 
-export const getActiveGameController = async (req: Request, res: Response) => {
+export const getActiveGameController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const game = await getGameService();
     res.status(200).json(game);
   } catch (err) {
-    if (err instanceof Error && err.message === 'Game not found') {
-      res.status(404).send({ message: 'No active game found' });
-    } else {
-      console.log(err);
-      res.status(500).send({ message: 'Server error' });
-    }
+    next(err);
   }
 };
 
-export const setGameController = async (req: Request, res: Response) => {
+export const setGameController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { teams } = req.body;
-  console.log('teams', teams);
   try {
     const isThereActiveGame = await checkIsActiveGameService();
     if (isThereActiveGame) {
-      res.status(400).send({ message: 'There is already active game' });
-      return;
+      return next(
+        new BadRequestError({ message: 'There is already active game' })
+      );
     }
-    if (!teams) res.status(400).send({ message: 'Teams werent provided' });
-    else {
-      const gameId = await setGameService(teams);
-      res.status(201).json(gameId);
+    if (!teams) {
+      return next(new BadRequestError({ message: 'Teams werent provided' }));
     }
+
+    const gameId = await setGameService(teams);
+    res.status(201).json(gameId);
   } catch (err) {
-    console.log(err);
-    res.status(500).send({ message: 'Server error' });
+    next(err);
   }
 };
 
-export const setGameResultsController = async (req: Request, res: Response) => {
+export const setGameResultsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { gameResults } = req.body;
-  console.log(gameResults);
+
   try {
     if (!gameResults)
-      res.status(401).send({ message: 'Game results wasnt provided' });
+      next(new BadRequestError({ message: 'Game results wasnt provided' }));
     else {
       const gameId = await setGameResultService(gameResults);
       res
@@ -79,7 +93,6 @@ export const setGameResultsController = async (req: Request, res: Response) => {
         .json({ message: 'Results for game were added successfully' });
     }
   } catch (err) {
-    console.log(err);
-    res.status(500).send({ message: 'Server error' });
+    next(err);
   }
 };
