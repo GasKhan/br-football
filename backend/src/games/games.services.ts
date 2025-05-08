@@ -11,31 +11,35 @@ export const getGamesService = async () => {
 };
 
 //TODO: maybe should split service to getbyid and getactive
+//TODO: if id is not found should return 404 and not give active game
 export const getGameService = async (id?: number) => {
-  let game = await prisma.game.findFirst({
-    where: { id: id },
-    include: {
-      teams: {
-        include: {
-          players: {
-            select: {
-              id: true,
-              name: true,
-              ratings: {
-                select: {
-                  rating: true,
+  let game = null;
+  if (id) {
+    game = await prisma.game.findFirst({
+      where: { id: id },
+      include: {
+        teams: {
+          include: {
+            players: {
+              select: {
+                id: true,
+                name: true,
+                ratings: {
+                  select: {
+                    rating: true,
+                  },
+                  where: {
+                    gameId: id,
+                  },
+                  take: 1,
                 },
-                where: {
-                  gameId: id,
-                },
-                take: 1,
               },
             },
           },
         },
       },
-    },
-  });
+    });
+  }
 
   if (!game) {
     game = await prisma.game.findFirst({
@@ -52,7 +56,9 @@ export const getGameService = async (id?: number) => {
                     rating: true,
                   },
                   where: {
-                    gameId: id,
+                    game: {
+                      isActive: true,
+                    },
                   },
                   take: 1,
                 },
@@ -94,6 +100,18 @@ export const setGameService = async (teams: Team[]) => {
       },
     });
   });
+
+  const ratingPromises = teams.map(async (team) => {
+    const createdRatings = await prisma.rating.createMany({
+      data: team.players.map((player) => ({
+        gameId: game.id,
+        playerId: player.id,
+        rating: 0,
+      })),
+    });
+  });
+
+  await Promise.all(ratingPromises);
 
   await Promise.all(teamPromises);
 

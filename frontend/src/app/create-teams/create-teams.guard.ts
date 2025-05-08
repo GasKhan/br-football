@@ -25,7 +25,7 @@ export const createTeamsGuard: CanActivateFn = (
         console.log('No game data found, allowing access to create teams page');
         return true;
       }
-      console.log('Game already exists, redirecting to game page');
+      console.log('Active game already exists, redirecting to game page');
       return router.createUrlTree(['/game']);
     }),
     catchError((err) => {

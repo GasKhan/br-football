@@ -2,8 +2,8 @@ import { PrismaClient } from '../../generated/prisma';
 
 const prisma = new PrismaClient();
 
-//TODO: remove 4
-export const getPlayerRatingsByMonthService = async (month: number = 4) => {
+//TODO: remove 5
+export const getPlayerRatingsByMonthService = async (month: number = 5) => {
   const playersWithRatings = await prisma.player.findMany({
     select: {
       name: true,

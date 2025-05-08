@@ -42,7 +42,7 @@ export class GameService {
             ...team,
             players: team.players.map((player) => {
               if (player.id === playerId) {
-                return { ...player, rating: newRating };
+                return { ...player, ratings: [{ rating: newRating }] };
               }
               return player;
             }),
@@ -51,6 +51,7 @@ export class GameService {
         return team;
       }),
     };
+    console.log('updatedGameData', updatedGameData);
     this._gameData.next(updatedGameData);
   }
 
@@ -80,12 +81,12 @@ export class GameService {
       team.players.forEach((player) =>
         ratings.push({
           playerId: player.id,
-          rating: player.rating,
+          rating: +player.ratings[0].rating,
         })
       );
     });
 
-    if (ratings.some((rating) => rating.rating === 0)) {
+    if (ratings.some((rating) => rating.rating === 0 || rating.rating > 5)) {
       this._isAllFieldsFilledError.next(true);
       return;
     }
@@ -98,8 +99,12 @@ export class GameService {
       .subscribe({
         next: () => {
           console.log('Results saved successfully!');
+          this.router.navigate(['/']);
+
+          this._gameData.complete(); // Complete the current BehaviorSubject
+          this._gameData = new BehaviorSubject<Game>(null as any);
           this._isAllFieldsFilledError.next(false);
-          this.router.navigate(['/game']);
+          this.gameData$ = this._gameData.asObservable();
         },
         error: (error) => {
           console.error('Error saving results:', error);

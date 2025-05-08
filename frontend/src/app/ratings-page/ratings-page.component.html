@@ -8,7 +8,7 @@
     [appListItemColor]="$index"
   >
     <h5 class="font-semibold">{{ rating.playerName }}</h5>
-    <p class="font-bold">Rating: {{ rating.rating }}</p>
+    <p class="font-bold">Rating: {{ rating.rating.toFixed(2) }}</p>
   </li>
   }
 </ul>

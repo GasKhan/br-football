@@ -1,6 +1,6 @@
 <div class="flex">{{ team.id }}</div>
 <div class="flex">{{ team.teamColor }}</div>
-@for(player of team.players; track player.name; let i = $index) {
+@for(player of team.players; track player.id; let i = $index) {
 <ul class="flex flex-col">
   <li class="mb-2 p-1" [appListItemColor]="i">
     <div class="flex items-baseline justify-between">
@@ -16,15 +16,18 @@
           'border-red-500':
             (rating?.dirty || rating?.touched) && rating.value == 0
         }"
-        [(ngModel)]="player.rating"
+        [(ngModel)]="player.ratings[0].rating"
         (blur)="onRatingChange(player.id, $event)"
         (keypress)="onKeyPress($event)"
         #rating="ngModel"
       />
     </div>
 
-    @if((rating?.dirty || rating?.touched) && rating.value == 0){
-    <span class="text-red-500 text-sm mb-2">Rating must be greater than 0</span>
+    @if((rating?.dirty || rating?.touched) && (rating.value <= 0 || rating.value
+    > 5)) {
+    <span class="text-red-500 text-sm mb-2"
+      >Rating must be between 0 and 5</span
+    >
     }
   </li>
 </ul>

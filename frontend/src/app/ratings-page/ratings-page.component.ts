@@ -13,10 +13,6 @@ import { ListItemColorDirective } from '../shared/list-item-color.directive';
 export class RatingsPageComponent implements OnInit {
   ngOnInit(): void {
     this.ratingsService.getRatings();
-
-    this.ratingsService.ratings$.subscribe((data) => {
-      console.log('Ratings data:', data.ratings);
-    });
   }
   constructor(protected ratingsService: RatingsService) {}
 }

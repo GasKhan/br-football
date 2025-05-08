@@ -8,14 +8,17 @@ import {
   MIN_PLAYERS_COUNT,
   REQUIRED_TEAMS_COUNT,
 } from '../shared/config/config';
+import { Router } from '@angular/router';
+
+const initialTeams: Team[] = [
+  { teamColor: TeamColors.BLUE, players: [], points: 0 },
+  { teamColor: TeamColors.RED, players: [], points: 0 },
+  { teamColor: TeamColors.YELLOW, players: [], points: 0 },
+];
 
 @Injectable({ providedIn: 'root' })
 export class TeamService {
-  private teamsSubject = new BehaviorSubject<Team[]>([
-    { teamColor: TeamColors.BLUE, players: [], points: 0 },
-    { teamColor: TeamColors.RED, players: [], points: 0 },
-    { teamColor: TeamColors.YELLOW, players: [], points: 0 },
-  ]);
+  private teamsSubject = new BehaviorSubject<Team[]>(initialTeams);
 
   public teams$ = this.teamsSubject.asObservable();
 
@@ -76,6 +79,8 @@ export class TeamService {
       .subscribe({
         next: () => {
           console.log('Teams saved successfully');
+          this.router.navigate(['/game']);
+          this.teamsSubject.next(initialTeams);
           this.createTeamError.next(null);
         },
         error: (err) => {
@@ -98,5 +103,5 @@ export class TeamService {
       )
     );
   }
-  constructor(private teamApiService: TeamApiService) {}
+  constructor(private teamApiService: TeamApiService, private router: Router) {}
 }

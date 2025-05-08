@@ -31,6 +31,7 @@ export const getGameByIdController = async (req: Request, res: Response) => {
     res.status(500).send({ message: 'Server error' });
   }
 };
+
 export const getActiveGameController = async (req: Request, res: Response) => {
   try {
     const game = await getGameService();

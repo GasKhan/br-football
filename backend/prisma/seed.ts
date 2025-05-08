@@ -17,21 +17,21 @@ async function main() {
             teamColor: TeamColor.RED,
             points: 2,
             players: {
-              create: generatePlayers('Red', 6),
+              create: generatePlayers('Red', 5),
             },
           },
           {
             teamColor: TeamColor.BLUE,
             points: 3,
             players: {
-              create: generatePlayers('Blue', 6),
+              create: generatePlayers('Blue', 5),
             },
           },
           {
             teamColor: TeamColor.YELLOW,
             points: 5,
             players: {
-              create: generatePlayers('Yellow', 6),
+              create: generatePlayers('Yellow', 5),
             },
           },
         ],
