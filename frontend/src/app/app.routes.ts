@@ -7,6 +7,7 @@ import { gamePageResolver } from './game-page/game.resolver';
 import { PlayersPageComponent } from './players-page/players-page.component';
 import { createTeamsGuard } from './create-teams/create-teams.guard';
 import { RatingsPageComponent } from './ratings-page/ratings-page.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -31,4 +32,5 @@ export const routes: Routes = [
   },
   { path: 'ratings', component: RatingsPageComponent },
   { path: '', component: MainPageComponent },
+  { path: '**', component: NotFoundComponent },
 ];

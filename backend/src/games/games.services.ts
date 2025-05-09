@@ -7,68 +7,75 @@ import { NotFoundError } from '../shared/errors/notFoundError';
 const prisma = new PrismaClient();
 
 export const getGamesService = async () => {
-  const games = await prisma.game.findMany();
-  return games;
+  return await prisma.game.findMany();
 };
 
-//TODO: maybe should split service to getbyid and getactive
+const fetchGameById = async (id: number) => {
+  return await prisma.game.findFirst({
+    where: { id },
+    include: {
+      teams: {
+        include: {
+          players: {
+            select: {
+              id: true,
+              name: true,
+              ratings: {
+                select: {
+                  rating: true,
+                },
+                where: {
+                  gameId: id,
+                },
+                take: 1,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+};
+
+const fetchActiveGame = async () => {
+  return await prisma.game.findFirst({
+    where: { isActive: true },
+    include: {
+      teams: {
+        include: {
+          players: {
+            select: {
+              id: true,
+              name: true,
+              ratings: {
+                select: {
+                  rating: true,
+                },
+                where: {
+                  game: {
+                    isActive: true,
+                  },
+                },
+                take: 1,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+};
+
 //TODO: if id is not found should return 404 and not give active game
 export const getGameService = async (id?: number) => {
   let game = null;
+
   if (id) {
-    game = await prisma.game.findFirst({
-      where: { id: id },
-      include: {
-        teams: {
-          include: {
-            players: {
-              select: {
-                id: true,
-                name: true,
-                ratings: {
-                  select: {
-                    rating: true,
-                  },
-                  where: {
-                    gameId: id,
-                  },
-                  take: 1,
-                },
-              },
-            },
-          },
-        },
-      },
-    });
+    game = await fetchGameById(id);
   }
 
   if (!game) {
-    game = await prisma.game.findFirst({
-      where: { isActive: true },
-      include: {
-        teams: {
-          include: {
-            players: {
-              select: {
-                id: true,
-                name: true,
-                ratings: {
-                  select: {
-                    rating: true,
-                  },
-                  where: {
-                    game: {
-                      isActive: true,
-                    },
-                  },
-                  take: 1,
-                },
-              },
-            },
-          },
-        },
-      },
-    });
+    game = await fetchActiveGame();
   }
 
   if (!game) {
@@ -79,7 +86,6 @@ export const getGameService = async (id?: number) => {
 
   return game;
 };
-
 export const setGameService = async (teams: Team[]) => {
   const game = await prisma.game.create({
     data: {
@@ -87,8 +93,8 @@ export const setGameService = async (teams: Team[]) => {
     },
   });
 
-  const teamPromises = teams.map(async (team) => {
-    const createdTeam = await prisma.team.create({
+  const teamPromises = teams.map((team) =>
+    prisma.team.create({
       data: {
         teamColor: team.teamColor,
         gameId: game.id,
@@ -99,22 +105,21 @@ export const setGameService = async (teams: Team[]) => {
           })),
         },
       },
-    });
-  });
+    })
+  );
 
-  const ratingPromises = teams.map(async (team) => {
-    const createdRatings = await prisma.rating.createMany({
-      data: team.players.map((player) => ({
-        gameId: game.id,
-        playerId: player.id,
-        rating: 0,
-      })),
-    });
-  });
+  const ratingPromises = teams.flatMap((team) =>
+    team.players.map((player) => ({
+      gameId: game.id,
+      playerId: player.id,
+      rating: 0,
+    }))
+  );
 
-  await Promise.all(ratingPromises);
-
-  await Promise.all(teamPromises);
+  await Promise.all([
+    prisma.rating.createMany({ data: ratingPromises }),
+    ...teamPromises,
+  ]);
 
   return game;
 };
@@ -132,7 +137,6 @@ export const setGameResultService = async (gameResults: GameResult) => {
         data: { points: result.points },
       })
     );
-    await Promise.all(updatePromises);
 
     const ratingPromises = gameResults.ratings.map((result) =>
       transaction.rating.create({
@@ -143,7 +147,8 @@ export const setGameResultService = async (gameResults: GameResult) => {
         },
       })
     );
-    await Promise.all(ratingPromises);
+
+    await Promise.all([...updatePromises, ...ratingPromises]);
   });
 };
 
