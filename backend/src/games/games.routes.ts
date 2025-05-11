@@ -1,17 +1,19 @@
 import { Router } from 'express';
 import {
-  getActiveGameController,
-  getGameByIdController,
-  getGamesController,
-  setGameController,
-  setGameResultsController,
+  getActiveGame,
+  getGameById,
+  getGameDates,
+  getGames,
+  setGame,
+  setGameResults,
 } from './games.controllers';
 
 export const router = Router();
 
-router.get('/', getGamesController);
-router.get('/active', getActiveGameController);
-router.get('/:id', getGameByIdController);
+router.get('/', getGames);
+router.get('/dates', getGameDates);
+router.get('/active', getActiveGame);
+router.get('/:id', getGameById);
 
-router.post('/', setGameController);
-router.post('/results', setGameResultsController);
+router.post('/', setGame);
+router.post('/results', setGameResults);

@@ -125,7 +125,8 @@ exports.Prisma.PlayerScalarFieldEnum = {
 exports.Prisma.GameScalarFieldEnum = {
   id: 'id',
   date: 'date',
-  isActive: 'isActive'
+  isActive: 'isActive',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.TeamScalarFieldEnum = {

@@ -1,1 +1,8 @@
-
+<div class="flex flex-col justify-center items-center gap-4 p-4 mb-2">
+  <h3 class="font-semibold text-2xl">Select game</h3>
+  <input
+    mwlFlatpickr
+    (flatpickrChange)="onDateSelected($event)"
+    [enable]="multiDates"
+  />
+</div>

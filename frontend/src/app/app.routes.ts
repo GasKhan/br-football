@@ -8,8 +8,10 @@ import { PlayersPageComponent } from './players-page/players-page.component';
 import { createTeamsGuard } from './create-teams/create-teams.guard';
 import { RatingsPageComponent } from './ratings-page/ratings-page.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
 
 export const routes: Routes = [
+  { path: 'admin', component: AdminPageComponent },
   {
     path: 'players',
     // resolve: { ratings: adminPageResolver },

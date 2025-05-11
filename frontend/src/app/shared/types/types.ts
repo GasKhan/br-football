@@ -20,6 +20,11 @@ export type Game = {
   date: string;
 };
 
+export type GameDate = {
+  id: number;
+  createdAt: string;
+};
+
 export type TeamPoints = {
   teamId: number;
   points: number;

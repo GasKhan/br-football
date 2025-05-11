@@ -139,17 +139,28 @@ export const setGameResultService = async (gameResults: GameResult) => {
     );
 
     const ratingPromises = gameResults.ratings.map((result) =>
-      transaction.rating.create({
-        data: {
+      transaction.rating.updateMany({
+        where: {
           gameId: gameResults.gameId,
           playerId: result.playerId,
-          rating: result.rating,
         },
+        data: { rating: result.rating },
       })
     );
 
     await Promise.all([...updatePromises, ...ratingPromises]);
   });
+};
+
+export const getGameDatesService = async () => {
+  const games = await prisma.game.findMany({
+    where: { isActive: false },
+    select: {
+      id: true,
+      createdAt: true,
+    },
+  });
+  return games;
 };
 
 export const checkIsActiveGameService = async () => {

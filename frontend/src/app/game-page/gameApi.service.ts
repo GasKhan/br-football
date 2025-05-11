@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Game, GameResult } from '../shared/types/types';
+import { Game, GameDate, GameResult } from '../shared/types/types';
 
 @Injectable({ providedIn: 'root' })
 export class GameApiService {
@@ -10,6 +10,10 @@ export class GameApiService {
     } else {
       return this.http.get<Game>('http://localhost:5000/api/games/active');
     }
+  }
+
+  getGameDates() {
+    return this.http.get<GameDate[]>('http://localhost:5000/api/games/dates');
   }
 
   saveGameResults(gameResults: GameResult) {

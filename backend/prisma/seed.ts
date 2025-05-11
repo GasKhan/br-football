@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Clear existing data (optional)
+  await prisma.rating.deleteMany();
   await prisma.player.deleteMany();
   await prisma.team.deleteMany();
   await prisma.game.deleteMany();
@@ -45,6 +46,15 @@ async function main() {
       },
     },
   });
+
+  const ratings = game.teams.flatMap((team) =>
+    team.players.map((player) => ({
+      gameId: game.id,
+      playerId: player.id,
+      rating: 0,
+    }))
+  );
+  await prisma.rating.createMany({ data: ratings });
 
   console.log('Successfully created game with teams and players:');
   console.log(JSON.stringify(game, null, 2));

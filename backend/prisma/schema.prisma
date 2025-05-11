@@ -20,6 +20,7 @@ model Game {
   id     Int   @id @default(autoincrement())
   date   DateTime  @default(now())
   isActive Boolean @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
   teams  Team[]
   ratings Rating[]
 
@@ -29,10 +30,10 @@ model Game {
 model Team {
   id     Int   @id @default(autoincrement())
   gameId Int  @map("game_id")
-  game   Game   @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_ibfk_1")
   points Int @default(0)
   teamColor TeamColor @map("team_color")  
   players Player[]
+  game   Game   @relation(fields: [gameId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "team_ibfk_1")
 
   @@map("teams")
 }

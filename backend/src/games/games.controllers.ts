@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import {
   checkIsActiveGameService,
+  getGameDatesService,
   getGameService,
   getGamesService,
   setGameResultService,
@@ -8,7 +9,7 @@ import {
 } from './games.services';
 import { BadRequestError } from '../shared/errors/badRequestError';
 
-export const getGamesController = async (
+export const getGames = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -21,7 +22,7 @@ export const getGamesController = async (
   }
 };
 
-export const getGameByIdController = async (
+export const getGameById = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -39,7 +40,7 @@ export const getGameByIdController = async (
   }
 };
 
-export const getActiveGameController = async (
+export const getActiveGame = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -52,7 +53,20 @@ export const getActiveGameController = async (
   }
 };
 
-export const setGameController = async (
+export const getGameDates = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const gameDates = await getGameDatesService();
+    res.status(200).json(gameDates);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const setGame = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -76,7 +90,7 @@ export const setGameController = async (
   }
 };
 
-export const setGameResultsController = async (
+export const setGameResults = async (
   req: Request,
   res: Response,
   next: NextFunction
