@@ -1,5 +1,8 @@
 import { TeamColors } from './enums';
 
+//TODO: Type jwt token
+export type JWTToken = any;
+
 export type Player = {
   id: number;
   name: string;

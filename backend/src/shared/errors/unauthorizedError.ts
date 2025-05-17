@@ -1,8 +1,8 @@
 import { CustomError } from './customError';
 
-export class BadRequestError extends CustomError {
-  private static readonly _statusCode = 400;
-  private static readonly _name = 'BadRequestError';
+export class UnauthorizedError extends CustomError {
+  private static readonly _statusCode = 401;
+  private static readonly _name = 'UnauthorizedError';
   private readonly _logging: boolean;
   private readonly _code: number;
   private readonly _context: { [key: string]: any };
@@ -15,12 +15,12 @@ export class BadRequestError extends CustomError {
   }) {
     super(params.message);
     this._logging = params.logging ?? true;
-    this._code = params.code ?? BadRequestError._statusCode;
+    this._code = params.code ?? UnauthorizedError._statusCode;
     this._context = params.context ?? {};
   }
 
   get name(): string {
-    return BadRequestError._name;
+    return UnauthorizedError._name;
   }
 
   get statusCode(): number {

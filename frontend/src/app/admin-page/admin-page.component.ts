@@ -9,19 +9,22 @@ import { Observable, take } from 'rxjs';
 import { GameDate } from '../shared/types/types';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { FlatPickrOutputOptions } from 'angularx-flatpickr/lib/flatpickr.directive';
 
 @Component({
   selector: 'app-admin-page',
   standalone: true,
-  imports: [FormsModule, FlatpickrDirective],
+  imports: [FormsModule, FlatpickrDirective, RouterLink, RouterOutlet],
   providers: [
     provideFlatpickrDefaults({
       dateFormat: 'Y-m-d',
       altInput: true,
       altFormat: 'F j, Y',
       inline: true,
+      locale: {
+        firstDayOfWeek: 1,
+      },
     }),
   ],
   templateUrl: './admin-page.component.html',

@@ -1,8 +1,30 @@
-<div class="flex flex-col justify-center items-center gap-4 p-4 mb-2">
-  <h3 class="font-semibold text-2xl">Select game</h3>
-  <input
-    mwlFlatpickr
-    (flatpickrChange)="onDateSelected($event)"
-    [enable]="multiDates"
-  />
+<nav class="flex gap-4 px-2">
+  <div class="font-semibold text-lg">
+    <a [routerLink]="['players']" routerLinkActive="router-link-active"
+      >Players</a
+    >
+  </div>
+  <div class="font-semibold text-lg">
+    <a [routerLink]="['create-teams']" routerLinkActive="router-link-active"
+      >Start new game</a
+    >
+  </div>
+  <div class="font-semibold text-lg">
+    <a [routerLink]="['game']" routerLinkActive="router-link-active">Game</a>
+  </div>
+</nav>
+
+<div class="p-2 flex justify-between items-center">
+  <router-outlet></router-outlet>
+
+  <aside
+    class="flex flex-col justify-center items-center gap-4 p-4 mb-2 basis-1/4 border-l-2 border-gray-100"
+  >
+    <h3 class="font-semibold text-xl">Select game</h3>
+    <input
+      mwlFlatpickr
+      (flatpickrChange)="onDateSelected($event)"
+      [enable]="multiDates"
+    />
+  </aside>
 </div>

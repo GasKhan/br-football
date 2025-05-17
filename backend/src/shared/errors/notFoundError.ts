@@ -2,6 +2,7 @@ import { CustomError } from './customError';
 
 export class NotFoundError extends CustomError {
   private static readonly _statusCode = 404;
+  private static readonly _name = 'NotFoundError';
   private readonly _logging: boolean;
   private readonly _code: number;
   private readonly _context: { [key: string]: any };
@@ -13,9 +14,13 @@ export class NotFoundError extends CustomError {
     context?: { [key: string]: any };
   }) {
     super(params.message);
-    this._logging = params.logging ?? false;
+    this._logging = params.logging ?? true;
     this._code = params.code ?? NotFoundError._statusCode;
     this._context = params.context ?? {};
+  }
+
+  get name(): string {
+    return NotFoundError._name;
   }
 
   get statusCode(): number {

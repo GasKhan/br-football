@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { BadRequestError } from '../shared/errors/badRequestError';
+import { ConflictError } from '../shared/errors/conflictError';
+import { NotFoundError } from '../shared/errors/notFoundError';
+import { UnauthorizedError } from '../shared/errors/unauthorizedError';
 
 export const errorMiddleware = (
   err: Error,
@@ -7,10 +10,15 @@ export const errorMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  if (err instanceof BadRequestError) {
+  if (
+    err instanceof BadRequestError ||
+    err instanceof ConflictError ||
+    err instanceof NotFoundError ||
+    err instanceof UnauthorizedError
+  ) {
     if (err.logging) {
       console.error(
-        'BadRequestError:',
+        err.name,
         JSON.stringify(
           {
             stack: err.stack,
@@ -22,6 +30,7 @@ export const errorMiddleware = (
         )
       );
     }
+
     return res.status(err.statusCode).json({
       errors: err.errors,
     });

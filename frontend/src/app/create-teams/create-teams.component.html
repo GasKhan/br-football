@@ -14,7 +14,7 @@
   }
   <div class="flex p-1 flex-col md:flex-row justify-around mb-10">
     @for (team of (teamService.teams$ | async); track $index) {
-    <div class="flex flex-col">
+    <div class="flex flex-col mr-2">
       <h3 class="text-center uppercase">{{ team.teamColor }} team</h3>
       <app-add-player-input [teamColor]="team.teamColor"></app-add-player-input>
       <app-team-players

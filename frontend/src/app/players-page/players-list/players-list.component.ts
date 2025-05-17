@@ -14,7 +14,5 @@ import { tap } from 'rxjs/operators';
 export class PlayersListComponent {
   players$ = this.playersStore.players$;
 
-  constructor(private playersStore: PlayersStore) {
-    this.playersStore.fetchPlayers();
-  }
+  constructor(private playersStore: PlayersStore) {}
 }

@@ -18,9 +18,6 @@ export class GameService {
       .getGameData(id)
       .pipe(
         take(1),
-        tap((gameData) => {
-          console.log('gameData', gameData);
-        }),
         catchError((error) => {
           console.error('Error fetching game data:', error);
           throw error;
@@ -101,15 +98,19 @@ export class GameService {
           console.log('Results saved successfully!');
           this.router.navigate(['/']);
 
-          this._gameData.complete(); // Complete the current BehaviorSubject
-          this._gameData = new BehaviorSubject<Game>(null as any);
-          this._isAllFieldsFilledError.next(false);
-          this.gameData$ = this._gameData.asObservable();
+          this.clearGameData();
         },
         error: (error) => {
           console.error('Error saving results:', error);
         },
       });
+  }
+
+  clearGameData(): void {
+    this._gameData.complete(); // Complete the current BehaviorSubject
+    this._gameData = new BehaviorSubject<Game>(null as any);
+    this._isAllFieldsFilledError.next(false);
+    this.gameData$ = this._gameData.asObservable();
   }
 
   constructor(private gameApiService: GameApiService, private router: Router) {}
