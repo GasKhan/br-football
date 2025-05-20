@@ -1,5 +1,6 @@
 import { PrismaClient } from '../../generated/prisma';
 import { NotFoundError } from '../shared/errors/notFoundError';
+
 const prisma = new PrismaClient();
 
 export const getPlayersService = async () => {

@@ -1,5 +1,3 @@
-import { RowDataPacket } from 'mysql2';
-
 export interface IUser {
   id?: number;
   name: string;
@@ -20,17 +18,3 @@ export type GameResult = {
   ratings: RatingObj[];
   results: ResultObj[];
 };
-
-export interface IGame extends RowDataPacket {
-  id: number;
-  date: string;
-  isActive: 1 | 0;
-}
-export interface ITeam extends RowDataPacket {
-  id: number;
-  points: number;
-  // color: string;
-}
-export interface IPlayer extends RowDataPacket {
-  id: number;
-}

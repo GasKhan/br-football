@@ -5,9 +5,6 @@ import { router as gamesRouter } from './games/games.routes';
 import { router as playersRouter } from './players/players.routes';
 import { router as ratingsRouter } from './ratings/ratings.routes';
 import { router as authRouter } from './auth/auth.routes';
-import { router as goalsRouter } from './goals/goals.routes';
-import { router as teamsRouter } from './teams/teams-router';
-import { router as awardsRouter } from './awards/awards-router';
 import { errorMiddleware } from './middlewares/error.middleware';
 import { authMiddleware } from './middlewares/auth.middleware';
 

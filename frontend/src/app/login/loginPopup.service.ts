@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,4 +11,6 @@ export class LoginPopupService {
   toggleLoginPopup() {
     this._isLoginShown.set(!this._isLoginShown());
   }
+
+  constructor() {}
 }

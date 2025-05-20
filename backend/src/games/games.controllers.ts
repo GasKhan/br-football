@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import {
   checkIsActiveGameService,
+  fetchActiveGame,
+  fetchGameById,
   getGameDatesService,
-  getGameService,
   getGamesService,
   setGameResultService,
   setGameService,
@@ -32,7 +33,7 @@ export const getGameById = async (
   try {
     if (!id) next(new BadRequestError({ message: 'Game id wasnt provided' }));
     else {
-      const game = await getGameService(+id);
+      const game = await fetchGameById(+id);
       res.status(200).json(game);
     }
   } catch (err) {
@@ -46,7 +47,7 @@ export const getActiveGame = async (
   next: NextFunction
 ) => {
   try {
-    const game = await getGameService();
+    const game = await fetchActiveGame();
     res.status(200).json(game);
   } catch (err) {
     next(err);

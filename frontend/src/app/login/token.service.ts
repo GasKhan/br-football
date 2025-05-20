@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { JWTToken } from '../shared/types/types';
+import { jwtDecode } from 'jwt-decode';
 
 const ACCESS_TOKEN = 'accessToken';
 const REFRESH_TOKEN = 'refreshToken';
@@ -22,13 +23,17 @@ export class TokenService {
     localStorage.setItem(REFRESH_TOKEN, token);
   }
 
-  // setIsAdmin() {
-  //   localStorage.setItem(IS_ADMIN, 'true');
-  // }
-
-  // getIsAdmin() {
-  //   localStorage.getItem(IS_ADMIN);
-  // }
+  checkIsAdmin() {
+    const token = this.getAccessToken();
+    if (!token) return false;
+    try {
+      const { isAdmin } = jwtDecode(token) as { isAdmin?: boolean };
+      console.log(isAdmin);
+      return !!isAdmin;
+    } catch (err) {
+      return false;
+    }
+  }
 
   logout() {
     localStorage.clear();

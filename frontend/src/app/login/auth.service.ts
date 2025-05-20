@@ -37,12 +37,16 @@ export class AuthService {
     this.authError.set(null);
 
     this.tokenService.logout();
-    this.loginPopupService.toggleLoginPopup();
+    // this.loginPopupService.toggleLoginPopup();
   }
 
   constructor(
     private authApiService: AuthApiService,
     private loginPopupService: LoginPopupService,
     private tokenService: TokenService
-  ) {}
+  ) {
+    const isAdmin = tokenService.checkIsAdmin();
+
+    this._isAdmin.set(isAdmin);
+  }
 }

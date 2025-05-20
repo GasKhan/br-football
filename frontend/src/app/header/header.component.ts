@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LoginPopupService } from '../login/loginPopup.service';
+import { AuthService } from '../login/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -16,5 +17,14 @@ export class HeaderComponent {
     this.loginPopupService.toggleLoginPopup();
   }
 
-  constructor(protected loginPopupService: LoginPopupService) {}
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
+
+  constructor(
+    protected loginPopupService: LoginPopupService,
+    protected authService: AuthService,
+    private router: Router
+  ) {}
 }

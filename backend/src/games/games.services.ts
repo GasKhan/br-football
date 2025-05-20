@@ -10,7 +10,7 @@ export const getGamesService = async () => {
   return await prisma.game.findMany();
 };
 
-const fetchGameById = async (id: number) => {
+export const fetchGameById = async (id: number) => {
   return await prisma.game.findFirst({
     where: { id },
     include: {
@@ -37,7 +37,7 @@ const fetchGameById = async (id: number) => {
   });
 };
 
-const fetchActiveGame = async () => {
+export const fetchActiveGame = async () => {
   return await prisma.game.findFirst({
     where: { isActive: true },
     include: {
@@ -66,26 +66,6 @@ const fetchActiveGame = async () => {
   });
 };
 
-//TODO: if id is not found should return 404 and not give active game
-export const getGameService = async (id?: number) => {
-  let game = null;
-
-  if (id) {
-    game = await fetchGameById(id);
-  }
-
-  if (!game) {
-    game = await fetchActiveGame();
-  }
-
-  if (!game) {
-    throw new NotFoundError({
-      message: 'No game found with the given ID and no active games available',
-    });
-  }
-
-  return game;
-};
 export const setGameService = async (teams: Team[]) => {
   const game = await prisma.game.create({
     data: {

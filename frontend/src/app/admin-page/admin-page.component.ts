@@ -41,7 +41,7 @@ export class AdminPageComponent {
       (gameDate) => gameDate.createdAt.split('T')[0] === e.dateString
     );
 
-    if (selectedDate) this.router.navigate(['game', selectedDate.id]);
+    if (selectedDate) this.router.navigate(['admin', 'game', selectedDate.id]);
   }
 
   constructor(private gameApiService: GameApiService, private router: Router) {

@@ -10,8 +10,20 @@
     <h1 class="text-center flex-grow">
       <a href="#" class="text-5xl font-semibold">{{ title }}</a>
     </h1>
+
     <div class="font-semibold text-lg">
-      <button class="" (click)="loginAsAdmin()">Admin</button>
+      @if(authService.isAdmin()){
+      <a
+        routerLink="/admin"
+        routeerLinkActive="router-link-active"
+        class="font-semibold text-lg mr-2"
+        >Admin</a
+      >
+      <button class="font-semibold text-lg" (click)="logout()">Logout</button>
+
+      }@else {
+      <button class="" (click)="loginAsAdmin()">Login</button>
+      }
     </div>
   </div>
 </header>
