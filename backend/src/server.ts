@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import { router as gamesRouter } from './games/games.routes';
 import { router as playersRouter } from './players/players.routes';
@@ -11,8 +12,9 @@ import { authMiddleware } from './middlewares/auth.middleware';
 const app = express();
 const PORT = 5000;
 
+app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(cors({ credentials: true }));
 
 app.use('/api/auth', authRouter);
 app.use('/api/players', authMiddleware, playersRouter);

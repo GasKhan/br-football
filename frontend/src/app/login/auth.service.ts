@@ -1,29 +1,23 @@
 import { Injectable, signal } from '@angular/core';
-import { AuthApiService } from './authApi.service';
 import { take } from 'rxjs/operators';
+import { AuthApiService } from './authApi.service';
 import { LoginPopupService } from './loginPopup.service';
-import { TokenService } from './token.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { JWTToken } from '../shared/types/types';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private _isAdmin = signal(false);
+  public readonly accessToken = signal<string | null>(null);
   public isAdmin = this._isAdmin.asReadonly();
   public authError = signal<string | null>(null);
 
-  login(password: string) {
+  startLogin(password: string) {
     this.authApiService
       .loginAsAdmin(password)
       .pipe(take(1))
       .subscribe({
-        next: ({ accessToken, refreshToken }) => {
-          this._isAdmin.set(true);
-          this.authError.set(null);
-
-          this.tokenService.setAccessToken(accessToken);
-          this.tokenService.setRefreshToken(refreshToken);
-
-          this.loginPopupService.toggleLoginPopup();
-        },
+        next: ({ accessToken }) => this.login(accessToken),
         //TODO: type error properly
         error: (err: any) => {
           console.log(err.error.errors[0].message);
@@ -32,21 +26,29 @@ export class AuthService {
       });
   }
 
-  logout() {
-    this._isAdmin.set(false);
+  login(accessToken: JWTToken) {
+    this._isAdmin.set(true);
     this.authError.set(null);
 
-    this.tokenService.logout();
-    // this.loginPopupService.toggleLoginPopup();
+    this.accessToken.set(accessToken);
+
+    this.loginPopupService.toggleLoginPopup();
+  }
+
+  logout() {
+    // this.authApiService
+    //   .logout()
+    //   .pipe(take(1))
+    //   .subscribe(() => {
+    //     this._isAdmin.set(false);
+    //     this.authError.set(null);
+    //     this.accessToken.set(null);
+    //   });
+    console.log('logging out');
   }
 
   constructor(
     private authApiService: AuthApiService,
-    private loginPopupService: LoginPopupService,
-    private tokenService: TokenService
-  ) {
-    const isAdmin = tokenService.checkIsAdmin();
-
-    this._isAdmin.set(isAdmin);
-  }
+    private loginPopupService: LoginPopupService
+  ) {}
 }

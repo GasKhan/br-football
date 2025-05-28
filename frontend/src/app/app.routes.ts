@@ -18,6 +18,13 @@ export const routes: Routes = [
     resolve: { players: AdminPageResolver },
     children: [
       {
+        path: '',
+        loadComponent: () =>
+          import('./games-calendar/games-calendar.component').then(
+            (m) => m.GamesCalendarComponent
+          ),
+      },
+      {
         path: 'players',
         loadComponent: () =>
           import('./players-page/players-page.component').then(

@@ -9,6 +9,13 @@ import { DateFormatPipe } from '../shared/pipes/date-format.pipe';
   standalone: true,
   imports: [AsyncPipe, GameTeamComponent, DateFormatPipe],
   templateUrl: './game-page.component.html',
+  styles: [
+    `
+      :host {
+        width: 100%;
+      }
+    `,
+  ],
   styleUrl: './game-page.component.css',
 })
 export class GamePageComponent implements OnDestroy {

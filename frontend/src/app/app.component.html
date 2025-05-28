@@ -1,6 +1,8 @@
-<app-header></app-header>
-@if(loginPopupService.isLoginShown()) {
-<app-login></app-login>
-}
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<div class="flex flex-col min-h-screen relative">
+  <app-header></app-header>
+  <router-outlet></router-outlet>
+  <app-footer class="mt-auto"></app-footer>
+  @if(loginPopupService.isLoginShown()) {
+  <app-login></app-login>
+  }
+</div>

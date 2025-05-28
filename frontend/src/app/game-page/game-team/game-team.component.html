@@ -1,7 +1,6 @@
-<div class="flex">{{ team.id }}</div>
-<div class="flex">{{ team.teamColor }}</div>
-@for(player of team.players; track player.id; let i = $index) {
-<ul class="flex flex-col">
+<div class="">{{ team.teamColor }}</div>
+<ul class="flex flex-col grow">
+  @for(player of team.players; track player.id; let i = $index) {
   <li class="mb-2 p-1" [appListItemColor]="i">
     <div class="flex items-baseline justify-between">
       <span class="mr-1 font-semibold">
@@ -30,8 +29,8 @@
     >
     }
   </li>
+  }
 </ul>
-}
 <div class="flex flex-col justify-center items-center p-2">
   <span class="font-semibold mb-2">Points</span>
   <input

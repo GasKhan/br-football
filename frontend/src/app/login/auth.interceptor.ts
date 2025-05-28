@@ -5,8 +5,7 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { BehaviorSubject, throwError } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
-import { TokenService } from './token.service';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthApiService } from './authApi.service';
 import { JWTToken } from '../shared/types/types';
 import { AuthService } from './auth.service';
@@ -15,7 +14,6 @@ export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ) => {
-  const tokenService = inject(TokenService);
   const authApiService = inject(AuthApiService);
   const authService = inject(AuthService);
 
@@ -23,7 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (
   let isRefreshing = false;
   const refreshTokenSubject = new BehaviorSubject<JWTToken | null>(null);
 
-  const accessToken = tokenService.getAccessToken();
+  const accessToken = authService.accessToken();
   if (accessToken) authReq = setAuthHeader(req, accessToken);
 
   return next(authReq).pipe(
@@ -33,30 +31,26 @@ export const authInterceptor: HttpInterceptorFn = (
           isRefreshing = true;
           refreshTokenSubject.next(null);
 
-          const refreshToken = tokenService.getRefreshToken();
+          return authApiService.refreshTokens().pipe(
+            switchMap(({ accessToken }) => {
+              console.log('start refreshing');
+              console.log('access token is - ', accessToken);
+              authService.login(accessToken);
 
-          //TODO: Refactor
-          if (refreshToken) {
-            return authApiService.refreshTokens(refreshToken).pipe(
-              switchMap(({ accessToken, refreshToken }) => {
-                tokenService.setAccessToken(accessToken);
-                tokenService.setRefreshToken(refreshToken);
+              isRefreshing = false;
+              refreshTokenSubject.next(accessToken);
 
-                isRefreshing = false;
-                refreshTokenSubject.next(accessToken);
+              const newReq = setAuthHeader(authReq, accessToken);
+              return next(newReq);
+            }),
+            catchError((err) => {
+              console.log('error at refreshing tokens /n', err);
+              isRefreshing = false;
+              authService.logout();
 
-                const newReq = setAuthHeader(authReq, accessToken);
-                return next(newReq);
-              }),
-              catchError((err) => {
-                console.log('error at refreshing tokens /n', err);
-                isRefreshing = false;
-                authService.logout();
-
-                return throwError(() => err);
-              })
-            );
-          }
+              return throwError(() => err);
+            })
+          );
         }
 
         refreshTokenSubject.pipe(

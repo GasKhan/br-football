@@ -1,14 +1,27 @@
-<footer class="footer">
-  <div class="telegram">
-    <span>Telegram: </span>
-    <a [href]="telegram"> telegram </a>
+<footer class="flex flex-col items-center bg-slate-900 p-2">
+  <div class="text-white text-sm">
+    <span class="text-white text-sm">Telegram: </span>
+    <a
+      [href]="telegram"
+      class="text-white text-sm hover:underline max-sm:underline"
+    >
+      telegram
+    </a>
   </div>
-  <div class="location">
-    <span>Location: </span>
-    <a [href]="fieldLocation">field Location </a>
+  <div class="">
+    <span class="text-white text-sm">Location: </span>
+    <a
+      [href]="fieldLocation"
+      class="text-white text-sm hover:underline max-sm:underline"
+      >field Location
+    </a>
   </div>
-  <div class="field-number">
-    <span>Field number: </span>
-    <a [href]="{fieldNumber}">fieldNumber </a>
+  <div class="">
+    <span class="text-white text-sm">Field number: </span>
+    <a
+      [href]="{fieldNumber}"
+      class="text-white text-sm hover:underline max-sm:underline"
+      >fieldNumber
+    </a>
   </div>
 </footer>

@@ -5,6 +5,6 @@ export const router = Router();
 
 router.post('/login', login);
 
-router.post('/logout', logout);
+router.get('/logout', logout);
 
-router.post('/refresh', refreshTokens);
+router.get('/refresh', refreshTokens);

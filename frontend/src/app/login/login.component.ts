@@ -17,7 +17,7 @@ export class LoginComponent {
     event.preventDefault();
     console.log('Sending password ' + this.password);
 
-    this.authService.login(this.password);
+    this.authService.startLogin(this.password);
   }
 
   constructor(
