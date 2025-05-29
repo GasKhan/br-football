@@ -7,9 +7,13 @@ const AUTH_ROUTE = 'http://localhost:5000/api/auth';
 @Injectable({ providedIn: 'root' })
 export class AuthApiService {
   public loginAsAdmin(password: string) {
-    return this.http.post<{ accessToken: JWTToken }>(AUTH_ROUTE + '/login', {
-      password,
-    });
+    return this.http.post<{ accessToken: JWTToken }>(
+      AUTH_ROUTE + '/login',
+      {
+        password,
+      },
+      { withCredentials: true }
+    );
   }
 
   public refreshTokens() {
@@ -19,7 +23,9 @@ export class AuthApiService {
   }
 
   public logout() {
-    return this.http.get<{ accessToken: JWTToken }>(AUTH_ROUTE + '/logout');
+    return this.http.get<{ accessToken: JWTToken }>(AUTH_ROUTE + '/logout', {
+      withCredentials: true,
+    });
   }
   constructor(private http: HttpClient) {}
 }

@@ -7,24 +7,23 @@ export const authMiddleware = (
   res: Response,
   next: NextFunction
 ) => {
-  //TODO:
   try {
-    // const accessToken = req.headers['authorization'];
+    const accessToken = req.headers['authorization'];
 
-    // if (!accessToken) {
-    //   throw new UnauthorizedError({
-    //     message: 'Access token is missing',
-    //   });
-    // }
+    if (!accessToken) {
+      throw new UnauthorizedError({
+        message: 'Access token is missing',
+      });
+    }
 
-    // jwt.verify(accessToken, process.env.JWT_SECRET as string, (err) => {
-    //   if (err) {
-    //     throw new UnauthorizedError({
-    //       message: 'Invalid access token',
-    //     });
-    //   }
-    next();
-    // });
+    jwt.verify(accessToken, process.env.JWT_SECRET as string, (err) => {
+      if (err) {
+        throw new UnauthorizedError({
+          message: 'Invalid access token',
+        });
+      }
+      next();
+    });
   } catch (err) {
     next(err);
   }

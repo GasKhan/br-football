@@ -2,7 +2,6 @@ import { Injectable, signal } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { AuthApiService } from './authApi.service';
 import { LoginPopupService } from './loginPopup.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { JWTToken } from '../shared/types/types';
 
 @Injectable({ providedIn: 'root' })
@@ -36,14 +35,14 @@ export class AuthService {
   }
 
   logout() {
-    // this.authApiService
-    //   .logout()
-    //   .pipe(take(1))
-    //   .subscribe(() => {
-    //     this._isAdmin.set(false);
-    //     this.authError.set(null);
-    //     this.accessToken.set(null);
-    //   });
+    this.authApiService
+      .logout()
+      .pipe(take(1))
+      .subscribe(() => {
+        this._isAdmin.set(false);
+        this.authError.set(null);
+        this.accessToken.set(null);
+      });
     console.log('logging out');
   }
 

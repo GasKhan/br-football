@@ -5,7 +5,6 @@ import { ForbiddenError } from '../shared/errors/forbiddenError';
 export const login = (req: Request, res: Response, next: NextFunction) => {
   try {
     const { password } = req.body;
-
     const { accessToken, refreshToken } = loginService(password);
 
     res.cookie('refreshToken', refreshToken, {
@@ -27,14 +26,13 @@ export const refreshTokens = (
   next: NextFunction
 ) => {
   try {
+    console.log('cookies are ' + JSON.stringify(req.cookies, null, 2));
     const { refreshToken: token } = req.cookies;
-    for (let x in req.cookies) {
-      console.log('x', x);
-    }
-    console.log('refresh token id ' + token);
+    // console.log('refresh token id ' + token);
     if (!token) {
       throw new ForbiddenError({ message: 'Refresh token wasnt provided' });
     }
+    console.log('token is ' + token);
 
     const { accessToken, refreshToken } = refreshTokensService(token);
     res.cookie('refreshToken', refreshToken, {
@@ -51,6 +49,7 @@ export const refreshTokens = (
 };
 
 export const logout = (req: Request, res: Response, next: NextFunction) => {
+  console.log('logging out');
   try {
     const { refreshToken: token } = req.cookies;
     if (token) return res.sendStatus(204);
@@ -58,7 +57,7 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
     res.clearCookie('refreshToken', {
       httpOnly: true,
       // secure: true,
-      // sameSite: 'strict',
+      // sameSite: true,
     });
 
     res.sendStatus(204);
